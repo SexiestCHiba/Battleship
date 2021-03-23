@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public abstract class Player {
 
     protected ArrayList<Ship> ships = new ArrayList<>();
-    protected ArrayList<Triplet> moves = new ArrayList<>();
+    protected ArrayList<Triplet<Integer,Integer,Boolean>> moves = new ArrayList<>();
 
     public Player(){
         setShips();
@@ -18,8 +18,8 @@ public abstract class Player {
 
     }
 
-    public void addMove(Triplet move){
+    public void addMove(Triplet<Integer,Integer,Boolean> move){
         moves.add(move);
     }
-    public abstract Triplet chooseMove();
+    public abstract Triplet<Integer,Integer,Boolean> chooseMove();
 }
