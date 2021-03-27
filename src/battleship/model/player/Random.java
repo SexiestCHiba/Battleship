@@ -4,7 +4,7 @@ import battleship.utils.Triplet;
 
 public class Random extends Player{
     @Override
-    public Triplet chooseMove() {
+    public Triplet<Integer,Integer,Boolean> chooseMove() {
         return null;
     }
 }
