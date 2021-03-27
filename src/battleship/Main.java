@@ -23,7 +23,7 @@ public class Main {
             parseArgs(args);
         } catch (NoSuchElementException e) {
             System.out.println("Pas assez d'arguments, veuillez donner des arguments de cette forme:");
-            System.out.println("java -jar battleship <Human/Random> <Human/Random> <Int/Taille de la grille> [nogui]");
+            System.out.println("java -jar battleship <Human/Random> <Human/Random> [nogui]");
             System.out.println("<param>: paramètre obligatoire");
             System.out.println("[param]: paramètre optionnel");
             System.exit(2);
@@ -38,7 +38,7 @@ public class Main {
         ArrayList<Pair<String, Class<? extends Player>>> playerClass = new ArrayList<>(2);
         playerClass.add(new Pair<>("human", Human.class));
         playerClass.add(new Pair<>("random", Random.class));
-        if(args.length >= 3) {
+        if(args.length >= 2) {
             for(int i = 0; i < 2; ++i) {
                 for (Pair<String, Class<? extends Player>> pair : playerClass) {
                     if(args[i].equalsIgnoreCase(pair.getLeft())) {
@@ -46,10 +46,10 @@ public class Main {
                     }
                 }
             }
-            game = new Game(players,Integer.parseInt(args[2]));
-            if(args.length >= 4) {
+            game = new Game(players);
+            if(args.length >= 3) {
                 // arguments > 3 ignorés
-                if(args[3].equalsIgnoreCase("nogui"))
+                if(args[2].equalsIgnoreCase("nogui"))
                     view = new Terminal(game);
                 else
                     view = new Window(game);

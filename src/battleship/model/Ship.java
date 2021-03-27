@@ -8,16 +8,16 @@ public class Ship {
     private final int size;
     private final Pair<Integer,Integer> direction;
     // (0,-1) bas  // (0,1) haut  // (1,0) droite // (-1,0) gauche
-    private Boolean isDrown;
+    private boolean isDrown;
 
     public Ship(Pair<Integer, Integer> coords, int size,Pair<Integer,Integer> direction) {
         this.coords = coords;
         this.size = size;
         this.direction = direction;
-        this.isDrown = Boolean.FALSE;
+        isDrown = false;
     }
-    public void isDrown(){
-        isDrown = Boolean.TRUE;
+    public void setDrown(){
+        isDrown = true;
     }
     public Boolean hasDrown(){
         return isDrown;

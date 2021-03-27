@@ -1,11 +1,13 @@
 package battleship.model.player;
 
-import battleship.utils.Triplet;
+import battleship.utils.Pair;
 
 public class Random extends Player{
 
     @Override
-    public Triplet<Integer,Integer,Boolean> chooseMove() {
-        return null;
+    public Pair<Integer,Integer> chooseMove() {
+        Random rand = new Random();
+        int index  = validMoves().get(rand.nextInt(validMoves().size()));
+        return validMoves().get(index);
     }
 }

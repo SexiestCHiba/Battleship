@@ -6,11 +6,9 @@ public class Game {
 
     public Player[] players;
     public Player currentPlayer;
-    public int size;
 
-    public Game(Player[] players,int size) {
+    public Game(Player[] players) {
         this.players = players;
-        this.size = size;
     }
 
     public Player getCurrentPlayer(){
@@ -20,9 +18,7 @@ public class Game {
         currentPlayer = (currentPlayer == players[1])? players[0] : players[1];
     }
     public void checkDrownedShips(){
-        changeCurrentPlayer();
-        Player otherPlayer = currentPlayer;
-        changeCurrentPlayer();
+        Player otherPlayer = (currentPlayer == players[1])? players[0] : players[1];
         for(Ship ship : currentPlayer.getShips()){
             if(!ship.hasDrown())
                 otherPlayer.isItDrown(ship);

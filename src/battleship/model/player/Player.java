@@ -1,6 +1,7 @@
 package battleship.model.player;
 
 import battleship.model.Ship;
+import battleship.utils.Pair;
 import battleship.utils.Triplet;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public abstract class Player {
             }
         }
         if(cpt == ship.getSize()) {
-            ship.isDrown();
+            ship.setDrown();
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
@@ -53,7 +54,20 @@ public abstract class Player {
         return this.moves;
     }
 
-    public abstract Triplet<Integer,Integer,Boolean> chooseMove();
+    public abstract Pair<Integer,Integer> chooseMove();
+
+    public ArrayList<Pair<Integer,Integer>> validMoves(){
+        ArrayList<Pair<Integer,Integer>> validMovesList = new ArrayList<>();
+        for(Integer i = 0; i<10;i++){
+            for(Integer y = 0;y<10;y++){
+                if(!moves.contains(new Triplet<>(i,y,true)) ||!moves.contains(new Triplet<>(i,y,false))){
+                    validMovesList.add(new Pair<>(i,y));
+                }
+            }
+        }
+        return null;
+
+    }
 
 
 }

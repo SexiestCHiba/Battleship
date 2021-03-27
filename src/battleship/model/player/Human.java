@@ -1,12 +1,12 @@
 package battleship.model.player;
 
-import battleship.utils.Triplet;
+import battleship.utils.Pair;
 
 public class Human extends Player {
 
 
     @Override
-    public Triplet<Integer,Integer,Boolean> chooseMove() {
+    public Pair<Integer,Integer> chooseMove() {
         return null;
     }
 }

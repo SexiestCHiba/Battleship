@@ -15,22 +15,30 @@ public abstract class View {
     }
     @Override
     public String toString(){
-        ArrayList<Triplet<Integer,Integer,Boolean>> player1 = game.players[0].getMoves();
-        ArrayList<Triplet<Integer,Integer,Boolean>> player2 = game.players[1].getMoves();
-        String chain = "";
-        for(int i = 0; i<game.size;i++){
-            for(int y = 0;y<game.size;y++){
-                for(Triplet<Integer, Integer, Boolean> ships1 : player1){
-                    if(i == ships1.getLeft()&& y == ships1.getMiddle()){
-                        //chain +=
-                    }
-                }
-                for(Triplet<Integer, Integer, Boolean> ships2 : player2){
 
+
+        ArrayList<Triplet<Integer,Integer,Boolean>> player = game.currentPlayer.getMoves();
+        String chain = "A vous de joueur "+game.currentPlayer+"\n+ - - - - - - - - - - +";
+        for(int i = 0; i<10;i++){
+            chain += "|";
+            for(int y = 0;y<10;y++){
+                for(Triplet<Integer, Integer, Boolean> ships : player){
+                    if(i == ships.getLeft()&& y == ships.getMiddle()){
+                        if(ships.getRight() == true){
+                            chain += " !";
+                        }
+                        else
+                            chain += " .";
+
+                    }
+                    else
+                        chain += " ";
                 }
+
             }
+            chain += " |\n";
         }
-        // Not finished yet
+        chain += "+ - - - - - - - - - - +\n";
         return chain;
     }
 }
