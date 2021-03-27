@@ -28,6 +28,32 @@ public abstract class Player {
         moves.add(move);
         return this;
     }
+    public Boolean isItDrown(Ship ship){
+        int cpt = 0;
+        for(Triplet<Integer,Integer,Boolean> move : moves){
+            for(int i =1;i<=ship.getSize();i++){
+                int x = ship.getCoords().getLeft()+i*ship.getDirection().getLeft();
+                int y = ship.getCoords().getRight()+i*ship.getDirection().getRight();
+                if((move.getLeft() == x) && (move.getMiddle() == y)){
+                    cpt += 1;
+                    break;
+                }
+            }
+        }
+        if(cpt == ship.getSize()) {
+            ship.isDrown();
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+    public ArrayList<Ship> getShips(){
+        return this.ships;
+    }
+    public ArrayList<Triplet<Integer,Integer,Boolean>> getMoves(){
+        return this.moves;
+    }
 
     public abstract Triplet<Integer,Integer,Boolean> chooseMove();
+
+
 }
