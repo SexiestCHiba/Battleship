@@ -31,6 +31,7 @@ public class Main {
             e.printStackTrace();
             System.exit(1);
         }
+        game.Play(view);
     }
 
     private static void parseArgs(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {

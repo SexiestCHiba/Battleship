@@ -31,5 +31,16 @@ public class Ship {
     public Pair<Integer,Integer> getCoords(){
         return this.coords;
     }
+    public Pair<Integer, Integer>[] getCoordsArray(){
+        Pair<Integer,Integer>[]  tab = new Pair[size];
+        for(int i = 0; i<size;i++){
+            for(int y = 0;y<size;y++){
+                tab[i] = new Pair<>(coords.getLeft()+i* direction.getLeft(),coords.getRight()+i* direction.getRight());
+            }
+        }
+        return tab;
+
+
+    }
 
 }
