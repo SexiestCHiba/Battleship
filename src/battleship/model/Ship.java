@@ -4,9 +4,9 @@ import battleship.utils.*;
 
 public class Ship {
 
-    private final Pair<Integer, Integer> coords;
+    private Pair<Integer, Integer> coords;
     private final int size;
-    private final Pair<Integer,Integer> direction;
+    private Pair<Integer,Integer> direction;
     // (0,-1) bas  // (0,1) haut  // (1,0) droite // (-1,0) gauche
     private boolean isDrown;
 
@@ -16,6 +16,14 @@ public class Ship {
         this.direction = direction;
         isDrown = false;
     }
+    public void setDirection(Pair<Integer,Integer> d){
+        this.direction = d;
+    }
+    public void setCoords(Pair<Integer,Integer> c){
+        this.coords = c;
+
+    }
+
     public void setDrown(){
         isDrown = true;
     }

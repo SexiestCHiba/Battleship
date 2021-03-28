@@ -9,4 +9,8 @@ public class Random extends Player {
         java.util.Random rand = new java.util.Random();
         return validMoves().get(rand.nextInt(validMoves().size()));
     }
+    @Override
+    public String toString(){
+        return "Random " +id;
+    }
 }

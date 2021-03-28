@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class Human extends Player {
 
 
+
     @Override
     public Pair<Integer,Integer> chooseMove() {
         int x = -1, y = -1;
@@ -18,6 +19,7 @@ public class Human extends Player {
             System.out.println("Veuillez indiquer la coordonée y de votre coup");
             y = scanner.nextInt();
         }
+        scanner.close();
         return new Pair<>(x,y);
     }
     public boolean areValid(int x,int y){
@@ -29,4 +31,9 @@ public class Human extends Player {
         }
         return true;
     }
+    @Override
+    public String toString(){
+        return "Human " +id;
+    }
+
 }

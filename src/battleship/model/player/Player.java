@@ -5,19 +5,26 @@ import battleship.utils.Pair;
 import battleship.utils.Triplet;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public abstract class Player {
 
     protected ArrayList<Ship> ships = new ArrayList<>();
     protected ArrayList<Triplet<Integer,Integer,Boolean>> moves = new ArrayList<>();
+    protected int id;
 
     public Player(){
-        setShips();
     }
 
-    public void setShips(Ship... ships){
-        this.ships.addAll(Arrays.asList(ships));
+    public boolean setShips(Ship ship){
+        int x,y;
+        for(int i = 0; i<ship.getSize();i++){
+            x = ship.getCoords().getLeft()+i* ship.getDirection().getLeft();
+            y = ship.getCoords().getRight()+i* ship.getDirection().getRight();
+            if(x > 9 ||x<0||y>9||y<0)
+                return false;
+        }
+        this.ships.add(ship);
+        return true;
     }
 
     /**
@@ -67,6 +74,9 @@ public abstract class Player {
         }
         return validMovesList;
 
+    }
+    public void setId(int i ){
+        id = i;
     }
 
 
