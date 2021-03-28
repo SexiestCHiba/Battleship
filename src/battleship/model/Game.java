@@ -11,38 +11,36 @@ public class Game {
 
     public Player[] players;
     public Player currentPlayer;
-    private int[] ships = new int[5];
+    private final int[] ships = { 5, 4, 3, 3, 2};
 
     public Game(Player[] players) {
         this.players = players;
         this.currentPlayer = players[0];
         players[0].setId(1);
         players[1].setId(2);
-        ships[0] = 5;
-        ships[1] = 4;
-        ships[2] = 3;
-        ships[3] = 3;
-        ships[4] = 2;
     }
 
 
     public Player getCurrentPlayer(){
         return this.currentPlayer;
     }
+
     public void changeCurrentPlayer(){
         currentPlayer = (currentPlayer == players[1])? players[0] : players[1];
     }
+
     public void checkDrownedShips(){
         Player otherPlayer = (currentPlayer == players[1])? players[0] : players[1];
         for(Ship ship : currentPlayer.getShips()){
-            if(!ship.hasDrown())
+            if(!ship.isDrown())
                 otherPlayer.isItDrown(ship);
         }
     }
+
     public Player getWinner(){
         int cpt = 0;
         for(Ship ship : players[0].getShips()){
-            if(!ship.hasDrown())
+            if(!ship.isDrown())
                 break;
             else
                 cpt ++;
@@ -51,7 +49,7 @@ public class Game {
             return players[1];
         cpt = 0;
         for(Ship ship : players[1].getShips()){
-            if(!ship.hasDrown())
+            if(!ship.isDrown())
                 break;
             else
                 cpt ++;
@@ -76,41 +74,36 @@ public class Game {
 
     }
     public void setShips(Player player){
-        Ship ship = new Ship(new Pair<>(0,0),2,new Pair<>(-1,-1));
         Scanner scanner = new Scanner(System.in);
-        int x,y;
-        String dir = "AB";
-        Pair pair = new Pair<>(null,null);
+        int x, y;
+        String dir;
         for(int i : ships){
-            while(!player.setShips(ship)){
-                System.out.println("Placement du bateau de longueur "+i +" :\n");
+            boolean valid = false;
+            Ship ship = new Ship(new Pair<>(0,0), i, Direction.DEFAULT);
+            while(!player.setShips(ship)) {
+                if(valid) {
+                    System.out.println("Erreur");
+                }
+                valid = true;
+                System.out.println("Placement du bateau de longueur "+ ship.getSize());
                 System.out.println("Veuillez indiquer la coordonée x de votre bateau");
                 x = scanner.nextInt();
                 System.out.println("Veuillez indiquer la coordonée y de votre bateau");
                 y = scanner.nextInt();
-                ship.setCoords(new Pair<>(x,y));
-                while(!dir.equals("D") || !dir.equals("H") || !dir.equals("B") || !dir.equals("G")){
+                ship.setCoords(new Pair<>(x, y));
+                boolean validDirection = false;
+                while(!validDirection){
                     System.out.println("Veuillez indiquer la direction de placement de votre bateau (d droite, h haut, b bas, g gauche)");
-                    dir = scanner.nextLine();
+                    dir = scanner.next().toUpperCase();
                     System.out.println(dir);
-                    dir = (String.valueOf(dir.substring(0,1))).toUpperCase();
-
+                    for(Direction direction : Direction.values()) {
+                        if(direction.getKeyword() != null && direction.getKeyword().equals(dir)) {
+                            ship.setDirection(direction);
+                            validDirection = true;
+                            break;
+                        }
+                    }
                 }
-                switch (dir){
-                    case "D":
-                        ship.setDirection(new Pair<>(1,0));
-                        break;
-                    case "H":
-                        ship.setDirection(new Pair<>(0,1));
-                        break;
-                    case "B":
-                        ship.setDirection(new Pair<>(0,-1));
-                        break;
-                    case "G":
-                        ship.setDirection(new Pair<>(-1,0));
-                        break;
-                }
-
             }
         }
 

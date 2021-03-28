@@ -12,15 +12,12 @@ public abstract class Player {
     protected ArrayList<Triplet<Integer,Integer,Boolean>> moves = new ArrayList<>();
     protected int id;
 
-    public Player(){
-    }
-
     public boolean setShips(Ship ship){
-        int x,y;
-        for(int i = 0; i<ship.getSize();i++){
-            x = ship.getCoords().getLeft()+i* ship.getDirection().getLeft();
-            y = ship.getCoords().getRight()+i* ship.getDirection().getRight();
-            if(x > 9 ||x<0||y>9||y<0)
+        int x, y;
+        for(int i = 0; i < ship.getSize(); i++){
+            x = ship.getCoords().getLeft() + i * ship.getDirection().getDirection().getLeft();
+            y = ship.getCoords().getRight()+ i * ship.getDirection().getDirection().getRight();
+            if(x > 9 || x < 0 || y > 9 || y < 0)
                 return false;
         }
         this.ships.add(ship);
@@ -36,12 +33,13 @@ public abstract class Player {
         moves.add(move);
         return this;
     }
-    public Boolean isItDrown(Ship ship){
+
+    public boolean isItDrown(Ship ship){
         int cpt = 0;
         for(Triplet<Integer,Integer,Boolean> move : moves){
-            for(int i =1;i<=ship.getSize();i++){
-                int x = ship.getCoords().getLeft()+i*ship.getDirection().getLeft();
-                int y = ship.getCoords().getRight()+i*ship.getDirection().getRight();
+            for(int i = 1; i <= ship.getSize(); i++){
+                int x = ship.getCoords().getLeft()+ i * ship.getDirection().getDirection().getLeft();
+                int y = ship.getCoords().getRight()+ i * ship.getDirection().getDirection().getRight();
                 if((move.getLeft() == x) && (move.getMiddle() == y)){
                     cpt += 1;
                     break;
@@ -50,20 +48,21 @@ public abstract class Player {
         }
         if(cpt == ship.getSize()) {
             ship.setDrown();
-            return Boolean.TRUE;
+            return true;
         }
-        return Boolean.FALSE;
+        return false;
     }
     public ArrayList<Ship> getShips(){
         return this.ships;
     }
+
     public ArrayList<Triplet<Integer,Integer,Boolean>> getMoves(){
         return this.moves;
     }
 
     public abstract Pair<Integer,Integer> chooseMove();
 
-    public ArrayList<Pair<Integer,Integer>> validMoves(){
+    public ArrayList<Pair<Integer,Integer>> validMoves() {
         ArrayList<Pair<Integer,Integer>> validMovesList = new ArrayList<>();
         for(Integer i = 0; i<10;i++){
             for(Integer y = 0;y<10;y++){
@@ -75,7 +74,7 @@ public abstract class Player {
         return validMovesList;
 
     }
-    public void setId(int i ){
+    public void setId(int i){
         id = i;
     }
 
