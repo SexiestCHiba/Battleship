@@ -1,6 +1,7 @@
 package battleship.view;
 
 import battleship.model.Game;
+import battleship.model.player.Player;
 
 public class Window extends View {
 
@@ -9,7 +10,12 @@ public class Window extends View {
     }
 
     @Override
-    public String toString() {
-        return null;
+    public void setShips(Player player) {
+
+    }
+
+    @Override
+    public void displayBoard() {
+
     }
 }

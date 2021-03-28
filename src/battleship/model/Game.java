@@ -5,8 +5,6 @@ import battleship.utils.Pair;
 import battleship.utils.Triplet;
 import battleship.view.View;
 
-import java.util.Scanner;
-
 public class Game {
 
     public Player[] players;
@@ -73,46 +71,11 @@ public class Game {
         currentPlayer.addMove(new Triplet<>(move.getLeft(),move.getRight(),bool));
 
     }
-    public void setShips(Player player){
-        Scanner scanner = new Scanner(System.in);
-        int x, y;
-        String dir;
-        for(int i : ships){
-            boolean valid = false;
-            Ship ship = new Ship(new Pair<>(0,0), i, Direction.DEFAULT);
-            while(!player.setShips(ship)) {
-                if(valid) {
-                    System.out.println("Erreur");
-                }
-                valid = true;
-                System.out.println("Placement du bateau de longueur "+ ship.getSize());
-                System.out.println("Veuillez indiquer la coordonée x de votre bateau");
-                x = scanner.nextInt();
-                System.out.println("Veuillez indiquer la coordonée y de votre bateau");
-                y = scanner.nextInt();
-                ship.setCoords(new Pair<>(x, y));
-                boolean validDirection = false;
-                while(!validDirection){
-                    System.out.println("Veuillez indiquer la direction de placement de votre bateau (d droite, h haut, b bas, g gauche)");
-                    dir = scanner.next().toUpperCase();
-                    System.out.println(dir);
-                    for(Direction direction : Direction.values()) {
-                        if(direction.getKeyword() != null && direction.getKeyword().equals(dir)) {
-                            ship.setDirection(direction);
-                            validDirection = true;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
 
-
-    }
     public Player Play(View view){
-        setShips(players[0]);
-        setShips(players[1]);
-        while(getWinner() == null){
+        view.setShips(players[0]);
+        view.setShips(players[1]);
+        while(getWinner() == null) {
             System.out.println(view);
             Pair<Integer,Integer> move  = currentPlayer.chooseMove();
             move(move);

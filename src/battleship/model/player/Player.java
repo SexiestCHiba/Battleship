@@ -13,12 +13,19 @@ public abstract class Player {
     protected int id;
 
     public boolean setShips(Ship ship){
-        int x, y;
         for(int i = 0; i < ship.getSize(); i++){
-            x = ship.getCoords().getLeft() + i * ship.getDirection().getDirection().getLeft();
-            y = ship.getCoords().getRight()+ i * ship.getDirection().getDirection().getRight();
+            int x = ship.getCoords().getLeft() + i * ship.getDirection().getDirection().getLeft();
+            int y = ship.getCoords().getRight()+ i * ship.getDirection().getDirection().getRight();
             if(x > 9 || x < 0 || y > 9 || y < 0)
                 return false;
+            for(Ship ship1 : this.ships) {
+                for (int j = 0; j < ship1.getSize(); j++) {
+                    int x1 = ship1.getCoords().getLeft() + i * ship1.getDirection().getDirection().getLeft();
+                    int y1 = ship1.getCoords().getRight() + i * ship1.getDirection().getDirection().getRight();
+                    if (x1 == x && y1 == y)
+                        return false;
+                }
+            }
         }
         this.ships.add(ship);
         return true;
@@ -78,5 +85,8 @@ public abstract class Player {
         id = i;
     }
 
+    public int getId() {
+        return id;
+    }
 
 }

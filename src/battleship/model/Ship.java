@@ -1,6 +1,6 @@
 package battleship.model;
 
-import battleship.utils.*;
+import battleship.utils.Pair;
 
 public class Ship {
 

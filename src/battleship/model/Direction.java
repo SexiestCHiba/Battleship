@@ -4,10 +4,10 @@ import battleship.utils.Pair;
 
 public enum Direction {
 
-    RIGHT(new Pair<>(1, 0), "D"),
-    LEFT(new Pair<>(-1,0), "G"),
-    UP(new Pair<>(0,-1), "H"),
-    DOWN(new Pair<>(0,1), "B"),
+    RIGHT(new Pair<>(0, 1), "D"),
+    LEFT(new Pair<>(0,-1), "G"),
+    UP(new Pair<>(-1,0), "H"),
+    DOWN(new Pair<>(1,0), "B"),
     DEFAULT(new Pair<>(-1,-1), null);
 
     private final Pair<Integer, Integer> direction;
