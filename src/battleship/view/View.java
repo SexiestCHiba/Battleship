@@ -46,5 +46,5 @@ public abstract class View {
         chain += "+ - - - - - - - - - - +\n";
         return chain;
     }
-
+    
 }
