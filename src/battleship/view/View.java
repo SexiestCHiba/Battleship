@@ -5,6 +5,7 @@ import battleship.model.player.Player;
 import battleship.utils.Triplet;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class View {
 
@@ -23,25 +24,24 @@ public abstract class View {
     @Override
     public String toString() {
         ArrayList<Triplet<Integer,Integer,Boolean>> moves = game.currentPlayer.getMoves();
-        String chain = "A vous de joueur "+game.currentPlayer.toString()+ "\n+ A B C D E F G H I J +\n";
-        for(int i = 0; i<10;i++){
-            chain += i+1;
-            for(int y = 0;y<10;y++){
+        String chain = "A vous de joueur "+game.currentPlayer.toString()+ "\n+ - - - - - - - - - - +\n";
+        
+        for(AtomicInteger i = new AtomicInteger(0); i.get() < 10;i.incrementAndGet()) {
+            chain += "|";
+            for(AtomicInteger y = new AtomicInteger(0);y.get() < 10; y.incrementAndGet()) {
                 if(!moves.isEmpty()) {
-                    for (Triplet<Integer, Integer, Boolean> ships : moves) {
-                        if (i == ships.getLeft() && y == ships.getMiddle()) {
-                            if(ships.getRight())
-                                chain += " !";
-                            else
-                                chain += " .";
-
-
-                        }else
-                            chain += " _";
-
-                    }
-                }else
-                    chain += " _";
+                	Triplet<Integer, Integer, Boolean> move = moves.stream().filter(p -> p.getLeft() == i.get() && p.getMiddle() == y.get()).findFirst().orElse(null);
+                	if(move != null) {
+                		if (move.getRight())
+                            chain += " !";
+                        else
+                            chain += " .";
+                	} else {
+                		chain += " _";
+                	}
+                }else {
+                	chain += " _";
+                }
             }
             chain += " |\n";
         }
