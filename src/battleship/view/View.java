@@ -23,20 +23,22 @@ public abstract class View {
     @Override
     public String toString() {
         ArrayList<Triplet<Integer,Integer,Boolean>> moves = game.currentPlayer.getMoves();
-        String chain = "A vous de joueur "+game.currentPlayer.toString()+ "\n+ - - - - - - - - - - +\n";
+        String chain = "A vous de joueur "+game.currentPlayer.toString()+ "\n+ A B C D E F G H I J +\n";
         for(int i = 0; i<10;i++){
-            chain += "|";
+            chain += i+1;
             for(int y = 0;y<10;y++){
                 if(!moves.isEmpty()) {
                     for (Triplet<Integer, Integer, Boolean> ships : moves) {
                         if (i == ships.getLeft() && y == ships.getMiddle()) {
-                            if (ships.getRight())
+                            if(ships.getRight())
                                 chain += " !";
                             else
                                 chain += " .";
 
+
                         }else
                             chain += " _";
+
                     }
                 }else
                     chain += " _";

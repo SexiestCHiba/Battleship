@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Terminal extends View {
 
-    private Scanner scanner = new Scanner(System.in);
+    public static Scanner scanner = new Scanner(System.in);
 
     public Terminal(Game game) {
         super(game);
