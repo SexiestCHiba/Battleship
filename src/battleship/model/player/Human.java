@@ -2,6 +2,7 @@ package battleship.model.player;
 
 import battleship.utils.Pair;
 import battleship.utils.Triplet;
+import battleship.view.Terminal;
 
 import java.util.Scanner;
 
@@ -12,14 +13,13 @@ public class Human extends Player {
     @Override
     public Pair<Integer,Integer> chooseMove() {
         int x = -1, y = -1;
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = Terminal.scanner;
         while(!areValid(x,y)) {
             System.out.println("Veuillez indiquer la coordonée x de votre coup");
             x = scanner.nextInt();
             System.out.println("Veuillez indiquer la coordonée y de votre coup");
             y = scanner.nextInt();
         }
-        scanner.close();
         return new Pair<>(x,y);
     }
     public boolean areValid(int x,int y){
