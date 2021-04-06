@@ -25,7 +25,7 @@ public abstract class View {
 
     public abstract void displayBoard();
 
-    protected void placeShipRandomly(Player player) {
+    public void placeShipRandomly(Player player) {
         Random rand = new Random();
         for(int i : ships) {
             Ship ship = null;
@@ -37,29 +37,36 @@ public abstract class View {
 
     @Override
     public String toString() {
-        ArrayList<Triplet<Integer,Integer,Boolean>> moves = game.currentPlayer.getMoves();
-        String chain = "A vous de joueur "+game.currentPlayer.toString()+ "\n+ - - - - - - - - - - +\n";
-        
-        for(AtomicInteger i = new AtomicInteger(0); i.get() < 10;i.incrementAndGet()) {
-            chain += "|";
-            for(AtomicInteger y = new AtomicInteger(0);y.get() < 10; y.incrementAndGet()) {
-                if(!moves.isEmpty()) {
-                	Triplet<Integer, Integer, Boolean> move = moves.stream().filter(p -> p.getLeft() == i.get() && p.getMiddle() == y.get()).findFirst().orElse(null);
-                	if(move != null) {
-                		if (move.getRight())
-                            chain += " !";
-                        else
-                            chain += " .";
-                	} else {
-                		chain += " _";
-                	}
-                }else {
-                	chain += " _";
+        // String chain = "A vous de joueur "+game.currentPlayer.toString()+ "\n+ - - - - - - - - - - +\n";
+        String chain = "";
+        for(int u = 0; u < 2; ++u) {
+            ArrayList<Triplet<Integer,Integer,Boolean>> moves = game.players[u].getMoves();
+            chain += "Player " + (u + 1) + " :\n";
+            chain += "+ - - - - - - - - - - +\n";
+            for(int i = 0; i < 10;++i) {
+                chain += "|";
+                for(int y = 0;y < 10; ++y) {
+                    if(!moves.isEmpty()) {
+                        for(Triplet<Integer, Integer, Boolean> move : moves) {
+                            if(move.getLeft() == i && move.getMiddle() == y) {
+                                if (move.getRight())
+                                    chain += " !";
+                                else
+                                    chain += " .";
+                            } else {
+                                chain += " _";
+                            }
+                            break;
+                        }
+                    } else {
+                        chain += " _";
+                    }
                 }
+                chain += " |\n";
             }
-            chain += " |\n";
+            chain += "+ - - - - - - - - - - +\n";
         }
-        chain += "+ - - - - - - - - - - +\n";
+
         return chain;
     }
     

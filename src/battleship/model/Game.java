@@ -75,6 +75,7 @@ public class Game {
     public Player Play(View view){
         view.setShips(players[0]);
         view.setShips(players[1]);
+        System.out.println(view.toString());
         while(getWinner() == null) {
             System.out.println(view);
             Pair<Integer,Integer> move  = currentPlayer.chooseMove();
