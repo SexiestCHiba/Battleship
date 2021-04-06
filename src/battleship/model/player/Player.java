@@ -92,11 +92,11 @@ public abstract class Player {
         return id;
     }
     
-    public void placeShipRandomly(Player player) {
+    public void placeShipRandomly() {
         Random rand = new Random();
         for(int i : bato) {
             Ship ship = null;
-            while(ship == null || !player.setShips(ship)) {
+            while(ship == null || !setShips(ship)) {
                 ship = new Ship(new Pair<>(rand.nextInt(10), rand.nextInt(10)), i, Direction.values()[rand.nextInt(Direction.values().length)]);
             }
         }

@@ -25,16 +25,6 @@ public abstract class View {
 
     public abstract void displayBoard();
 
-    public void placeShipRandomly(Player player) {
-        Random rand = new Random();
-        for(int i : ships) {
-            Ship ship = null;
-            while(ship == null || !player.setShips(ship)) {
-                ship = new Ship(new Pair<>(rand.nextInt(10), rand.nextInt(10)), i, Direction.values()[rand.nextInt(Direction.values().length)]);
-            }
-        }
-    }
-
     @Override
     public String toString() {
         // String chain = "A vous de joueur "+game.currentPlayer.toString()+ "\n+ - - - - - - - - - - +\n";

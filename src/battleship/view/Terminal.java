@@ -54,7 +54,7 @@ public class Terminal extends View {
             }
         } else {
             // Random
-            placeShipRandomly(player);
+            player.placeShipRandomly();
         }
 
 
