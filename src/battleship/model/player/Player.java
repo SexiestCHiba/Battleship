@@ -13,7 +13,7 @@ public abstract class Player {
     protected ArrayList<Ship> ships = new ArrayList<>();
     protected ArrayList<Triplet<Integer,Integer,Boolean>> moves = new ArrayList<>();
     protected int id;
-    protected final int[] bato = { 5, 4, 3, 3, 2};
+    protected final static int[] bato = { 5, 4, 3, 3, 2};
 
     public boolean setShips(Ship ship){
         for(int i = 0; i < ship.getSize(); i++){
@@ -92,7 +92,7 @@ public abstract class Player {
         return id;
     }
     
-    public void placeShipRandomly(Player player) {
+    public static void placeShipRandomly(Player player) {
         Random rand = new Random();
         for(int i : bato) {
             Ship ship = null;

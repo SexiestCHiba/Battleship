@@ -7,6 +7,7 @@ import battleship.model.player.Player;
 import battleship.utils.Pair;
 import battleship.utils.Triplet;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,17 +24,9 @@ public abstract class View {
 
     public abstract void setShips(Player player);
 
-    public abstract void displayBoard();
 
-    public void placeShipRandomly(Player player) {
-        Random rand = new Random();
-        for(int i : ships) {
-            Ship ship = null;
-            while(ship == null || !player.setShips(ship)) {
-                ship = new Ship(new Pair<>(rand.nextInt(10), rand.nextInt(10)), i, Direction.values()[rand.nextInt(Direction.values().length)]);
-            }
-        }
-    }
+    public abstract void displayBoard();
+    public abstract void displayBoard(Graphics g);
 
     @Override
     public String toString() {
