@@ -1,10 +1,14 @@
 package battleship.view;
 
+import battleship.model.Direction;
 import battleship.model.Game;
+import battleship.model.Ship;
 import battleship.model.player.Player;
+import battleship.utils.Pair;
 import battleship.utils.Triplet;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class View {
@@ -20,6 +24,16 @@ public abstract class View {
     public abstract void setShips(Player player);
 
     public abstract void displayBoard();
+
+    protected void placeShipRandomly(Player player) {
+        Random rand = new Random();
+        for(int i : ships) {
+            Ship ship = null;
+            while(ship == null || !player.setShips(ship)) {
+                ship = new Ship(new Pair<>(rand.nextInt(10), rand.nextInt(10)), i, Direction.values()[rand.nextInt(Direction.values().length)]);
+            }
+        }
+    }
 
     @Override
     public String toString() {
