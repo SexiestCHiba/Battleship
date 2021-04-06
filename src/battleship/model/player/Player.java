@@ -15,7 +15,7 @@ public abstract class Player {
     protected int id;
     protected final int[] bato = { 5, 4, 3, 3, 2};
 
-    public boolean setShips(Ship ship){
+    public boolean setShips(Ship ship) {
         for(int i = 0; i < ship.getSize(); i++){
             int x = ship.getCoords().getLeft() + i * ship.getDirection().getDirection().getLeft();
             int y = ship.getCoords().getRight()+ i * ship.getDirection().getDirection().getRight();
@@ -44,7 +44,7 @@ public abstract class Player {
         return this;
     }
 
-    public boolean isItDrown(Ship ship){
+    public boolean isItDrown(Ship ship) {
         int cpt = 0;
         for(Triplet<Integer,Integer,Boolean> move : moves){
             for(int i = 1; i <= ship.getSize(); i++){
@@ -75,7 +75,7 @@ public abstract class Player {
     public ArrayList<Pair<Integer,Integer>> validMoves() {
         ArrayList<Pair<Integer,Integer>> validMovesList = new ArrayList<>();
         for(Integer i = 0; i<10;i++){
-            for(Integer y = 0;y<10;y++){
+            for(Integer y = 0;y<10;y++) {
                 if(!moves.contains(new Triplet<>(i,y,true)) ||!moves.contains(new Triplet<>(i,y,false))){
                     validMovesList.add(new Pair<>(i,y));
                 }
@@ -95,8 +95,8 @@ public abstract class Player {
     public void placeShipRandomly() {
         Random rand = new Random();
         for(int i : bato) {
-            Ship ship = null;
-            while(ship == null || !setShips(ship)) {
+            Ship ship = new Ship(new Pair<>(-1, -1), i, Direction.DEFAULT);
+            while(!setShips(ship)) {
                 ship = new Ship(new Pair<>(rand.nextInt(10), rand.nextInt(10)), i, Direction.values()[rand.nextInt(Direction.values().length)]);
             }
         }

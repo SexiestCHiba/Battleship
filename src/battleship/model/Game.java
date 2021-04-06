@@ -23,6 +23,10 @@ public class Game {
         return this.currentPlayer;
     }
 
+    public Player getOtherPlayer() {
+        return this.currentPlayer == players[0] ? players[1] : players[0];
+    }
+
     public void changeCurrentPlayer(){
         currentPlayer = (currentPlayer == players[1])? players[0] : players[1];
     }
