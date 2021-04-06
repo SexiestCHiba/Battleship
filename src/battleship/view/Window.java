@@ -3,6 +3,8 @@ package battleship.view;
 import battleship.model.Game;
 import battleship.model.player.Player;
 
+import java.awt.Graphics;
+
 import javax.swing.*;
 
 public class Window extends View {
@@ -25,5 +27,9 @@ public class Window extends View {
     @Override
     public void displayBoard() {
 
+    }
+    
+    public void designBoard(Graphics g) {
+    	//super.paintComponent(g);
     }
 }

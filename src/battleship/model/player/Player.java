@@ -1,16 +1,19 @@
 package battleship.model.player;
 
+import battleship.model.Direction;
 import battleship.model.Ship;
 import battleship.utils.Pair;
 import battleship.utils.Triplet;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public abstract class Player {
 
     protected ArrayList<Ship> ships = new ArrayList<>();
     protected ArrayList<Triplet<Integer,Integer,Boolean>> moves = new ArrayList<>();
     protected int id;
+    protected final int[] bato = { 5, 4, 3, 3, 2};
 
     public boolean setShips(Ship ship){
         for(int i = 0; i < ship.getSize(); i++){
@@ -88,5 +91,14 @@ public abstract class Player {
     public int getId() {
         return id;
     }
-
+    
+    public void placeShipRandomly(Player player) {
+        Random rand = new Random();
+        for(int i : bato) {
+            Ship ship = null;
+            while(ship == null || !player.setShips(ship)) {
+                ship = new Ship(new Pair<>(rand.nextInt(10), rand.nextInt(10)), i, Direction.values()[rand.nextInt(Direction.values().length)]);
+            }
+        }
+    }
 }
