@@ -13,8 +13,8 @@ import java.awt.*;
 public class Window extends View {
 
     private JFrame frame;
-    private final int hauteur = 750;
-    private final int largeur = 1250;	
+    private final int hauteur = 600;
+    private final int largeur = 1200;	
 
     public Window(Game game) {
         super(game);
@@ -36,13 +36,14 @@ public class Window extends View {
             area.setBounds(20,10,400,20);
             //area.append("A   B   C   D   E   F   G   H   I   J");
             frame.add(area);*/
-            //23 - 12
-            for (int i=100; i<largeur; i+=largeur/23) {
-            		g.drawLine(i, largeur/12, i, largeur-(largeur/12));
-            		if (i > (largeur / 23) * 10 && i < (largeur / 23) * 12 - (largeur/40)) i += largeur/23 ;
+            for (int abscisse=largeur/24; abscisse<largeur; abscisse+=largeur/24) {
+            	g.drawLine(abscisse, hauteur/6, abscisse, hauteur);
+            	if ( largeur*0.44167 < abscisse && abscisse < largeur/2) {
+            		abscisse += largeur/24 ;
+            	}
             }
-            for (int j=100; j<hauteur; j+=hauteur/10) {
-            	g.drawLine(hauteur/10, j, hauteur - (hauteur/10), j);
+            for (int j=hauteur/6; j<hauteur; j+=hauteur/12) {
+            	g.drawLine(largeur/24, j, (int) (largeur/2.18), j);
             }
         }
    }
