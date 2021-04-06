@@ -19,7 +19,7 @@ public class Window extends View {
     public Window(Game game) {
         super(game);
         this.frame = new JFrame("Battleship");
-        frame.setSize(largeur,hauteur);
+        frame.setSize(largeur+largeur/38,hauteur+hauteur/13);
         frame.setContentPane(new Draw());
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
@@ -36,15 +36,19 @@ public class Window extends View {
             area.setBounds(20,10,400,20);
             //area.append("A   B   C   D   E   F   G   H   I   J");
             frame.add(area);*/
-            for (int abscisse=largeur/24; abscisse<largeur; abscisse+=largeur/24) {
+            for (int abscisse=largeur/24; abscisse<largeur+1; abscisse+=largeur/24) {
             	g.drawLine(abscisse, hauteur/6, abscisse, hauteur);
             	if ( largeur*0.44167 < abscisse && abscisse < largeur/2) {
             		abscisse += largeur/24 ;
             	}
             }
-            for (int j=hauteur/6; j<hauteur; j+=hauteur/12) {
-            	g.drawLine(largeur/24, j, (int) (largeur/2.18), j);
+            for (int ordonnee=hauteur/6; ordonnee<hauteur+1; ordonnee+=hauteur/12) {
+            	g.drawLine(largeur/24, ordonnee, (int) (largeur/2.18), ordonnee);
+            	g.drawLine((int) (largeur/1.845), ordonnee, largeur, ordonnee);
             }
+            TextArea a = new TextArea("Aouiuxdytftgykhulijhguhghf");
+            setLayout(new GridLayout(largeur, hauteur));
+            a.replaceRange("dqsdqsfdqsd", 0, 1);
         }
    }
     
