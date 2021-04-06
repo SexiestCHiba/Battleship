@@ -7,8 +7,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
-
 import javax.swing.*;
+import java.awt.*;
 
 public class Window extends View {
 
@@ -30,10 +30,6 @@ public class Window extends View {
 
     }
 
-    @Override
-    public void displayBoard(Graphics g) {
-    	
-    }
     class Draw extends JPanel {
         public void paintComponent(Graphics g) {
         	/*JTextArea area = new JTextArea();

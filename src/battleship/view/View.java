@@ -1,6 +1,5 @@
 package battleship.view;
 
-import battleship.model.Direction;
 import battleship.model.Game;
 import battleship.model.Ship;
 import battleship.model.player.Player;
@@ -8,9 +7,8 @@ import battleship.utils.Pair;
 import battleship.utils.Triplet;
 
 import java.awt.Graphics;
+import java.awt.*;
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class View {
 
@@ -24,33 +22,36 @@ public abstract class View {
 
     public abstract void setShips(Player player);
 
-
     public abstract void displayBoard();
-    public abstract void displayBoard(Graphics g);
 
     @Override
     public String toString() {
         // String chain = "A vous de joueur "+game.currentPlayer.toString()+ "\n+ - - - - - - - - - - +\n";
         String chain = "";
         for(int u = 0; u < 2; ++u) {
-            ArrayList<Triplet<Integer,Integer,Boolean>> moves = game.players[u].getMoves();
+            Player player = game.players[u];
+            ArrayList<Ship> ships = game.players[u].getShips();
             chain += "Player " + (u + 1) + " :\n";
             chain += "+ - - - - - - - - - - +\n";
             for(int i = 0; i < 10;++i) {
                 chain += "|";
                 for(int y = 0;y < 10; ++y) {
-                    if(!moves.isEmpty()) {
-                        for(Triplet<Integer, Integer, Boolean> move : moves) {
-                            if(move.getLeft() == i && move.getMiddle() == y) {
-                                if (move.getRight())
+                    Pair<Integer, Integer> pair = new Pair<>(i, y);
+                    if(!ships.isEmpty()) {
+                        boolean isPosition = false;
+                        for(Ship ship : ships) {
+                            if(isShipPosition(ship, pair)) {
+                                isPosition = true;
+                                if(isPositionDrowned(game.players[u == 0 ? 1 : 0], ship, pair)) {
                                     chain += " !";
-                                else
+                                } else {
                                     chain += " .";
-                            } else {
-                                chain += " _";
+                                }
+                                break;
                             }
-                            break;
                         }
+                        if(!isPosition)
+                            chain += " _";
                     } else {
                         chain += " _";
                     }
@@ -61,6 +62,33 @@ public abstract class View {
         }
 
         return chain;
+    }
+
+    private boolean isShipPosition(Ship ship, Pair<Integer, Integer> pair) {
+        if(ship.getCoords().equals(pair))
+            return true;
+        for(int a = 0; a < ship.getSize(); ++a) {
+            if(new Pair<>(ship.getCoords().getLeft() + a * ship.getDirection().getDirection().getLeft(), ship.getCoords().getRight() + a * ship.getDirection().getDirection().getRight()).equals(pair)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    private boolean isPositionDrowned(Player other, Pair<Integer, Integer> pair) {
+        for(Triplet<Integer, Integer, Boolean> move : other.getMoves()) {
+            if(move.getRight() && pair.getLeft().equals(move.getLeft()) && pair.getRight().equals(move.getMiddle())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isPositionDrowned(Player other, Ship ship, Pair<Integer, Integer> pair) {
+        if(ship.isDrown())
+            return true;
+        return isPositionDrowned(other, pair);
     }
     
 }

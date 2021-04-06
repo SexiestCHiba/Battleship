@@ -54,13 +54,11 @@ public class Terminal extends View {
             }
         } else {
             // Random
-            Player.placeShipRandomly(player);
+            player.placeShipRandomly();
         }
 
 
     }
-
-
 
     @Override
     public void displayBoard() {
