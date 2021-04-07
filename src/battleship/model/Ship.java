@@ -56,4 +56,8 @@ public class Ship {
 
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + ", coords=" + coords.toString() + ", size=" + size + ", direction=" + direction.toString();
+    }
 }

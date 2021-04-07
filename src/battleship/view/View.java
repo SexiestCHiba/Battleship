@@ -32,11 +32,10 @@ public abstract class View {
             ArrayList<Ship> ships = game.players[u].getShips();
             chain += "Player " + (u + 1) + " :\n";
             chain += "+ - - - - - - - - - - +\n";
-            for(int i = 0; i < 10;++i) {
+            for(int x = 0; x < 10; ++x) {
                 chain += "|";
-                for(int y = 0;y < 10; ++y) {
-                    Pair<Integer, Integer> pair = new Pair<>(i, y);
-                    if(!ships.isEmpty()) {
+                for(int y = 0; y < 10; ++y) {
+                    Pair<Integer, Integer> pair = new Pair<>(x, y);
                         boolean isPosition = false;
                         for(Ship ship : ships) {
                             if(isShipPosition(ship, pair)) {
@@ -51,9 +50,6 @@ public abstract class View {
                         }
                         if(!isPosition)
                             chain += " _";
-                    } else {
-                        chain += " _";
-                    }
                 }
                 chain += " |\n";
             }
@@ -63,11 +59,11 @@ public abstract class View {
         return chain;
     }
 
-    private boolean isShipPosition(Ship ship, Pair<Integer, Integer> pair) {
-        if(ship.getCoords().equals(pair))
+    private boolean isShipPosition(Ship ship, Pair<Integer, Integer> boardsCoords) {
+        if(ship.getCoords().equals(boardsCoords))
             return true;
         for(int a = 0; a < ship.getSize(); ++a) {
-            if(new Pair<>(ship.getCoords().getLeft() + a * ship.getDirection().getDirection().getLeft(), ship.getCoords().getRight() + a * ship.getDirection().getDirection().getRight()).equals(pair)) {
+            if(new Pair<>(ship.getCoords().getLeft() + a * ship.getDirection().getDirection().getLeft(), ship.getCoords().getRight() + a * ship.getDirection().getDirection().getRight()).equals(boardsCoords)) {
                 return true;
             }
         }

@@ -16,6 +16,8 @@ public abstract class Player {
     protected final int[] bato = { 5, 4, 3, 3, 2};
 
     public boolean setShips(Ship ship) {
+        if(ship.getDirection() == Direction.DEFAULT)
+            return false;
         for(int i = 0; i < ship.getSize(); i++){
             int x = ship.getCoords().getLeft() + i * ship.getDirection().getDirection().getLeft();
             int y = ship.getCoords().getRight()+ i * ship.getDirection().getDirection().getRight();
