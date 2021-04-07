@@ -60,8 +60,6 @@ public class Terminal extends View {
 
     }
 
-
-
     @Override
     public void displayBoard() {
         System.out.println(toString());

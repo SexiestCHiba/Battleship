@@ -6,6 +6,7 @@ import battleship.model.player.Player;
 import battleship.utils.Pair;
 import battleship.utils.Triplet;
 
+import java.awt.Graphics;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public abstract class View {
 
     public abstract void setShips(Player player);
 
-    public abstract void displayBoard(/*Graphics g*/);
+    public abstract void displayBoard();
 
     @Override
     public String toString() {
