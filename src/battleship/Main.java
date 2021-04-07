@@ -54,6 +54,8 @@ public class Main {
                     view = new Terminal(game);
                 else
                     view = new Window(game);
+            } else {
+                view = new Window(game);
             }
         } else
             throw new NoSuchElementException("Pas assez d'arguments");

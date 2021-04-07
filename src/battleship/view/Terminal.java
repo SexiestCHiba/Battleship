@@ -65,4 +65,9 @@ public class Terminal extends View {
         System.out.println(toString());
     }
 
+    @Override
+    public void displayWinner(Player winner) {
+        System.out.println("Le joueur " + winner.getId() + " a gagné");
+    }
+
 }

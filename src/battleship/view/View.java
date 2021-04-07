@@ -41,7 +41,10 @@ public abstract class View {
                         for(Ship ship : ships) {
                             if(isShipPosition(ship, pair)) {
                                 isPosition = true;
-                                if(isPositionDrowned(game.players[u == 0 ? 1 : 0], ship, pair)) {
+                                int result = isPositionDrowned(game.players[u == 0 ? 1 : 0], ship, pair);
+                                if(result == 1) {
+                                    chain += " X";
+                                } else if (result == 2){
                                     chain += " !";
                                 } else {
                                     chain += " .";
@@ -49,8 +52,14 @@ public abstract class View {
                                 break;
                             }
                         }
-                        if(!isPosition)
-                            chain += " _";
+                        if(!isPosition) {
+                            if(isPositionDrowned(game.players[u == 0 ? 1 : 0], pair) == 2) {
+                                chain += " ?";
+                            } else {
+                                chain += " _";
+                            }
+                        }
+
                 }
                 chain += " |\n";
             }
@@ -72,19 +81,27 @@ public abstract class View {
     }
 
 
-    private boolean isPositionDrowned(Player other, Pair<Integer, Integer> pair) {
+    private int isPositionDrowned(Player other, Pair<Integer, Integer> pair) {
         for(Triplet<Integer, Integer, Boolean> move : other.getMoves()) {
-            if(move.getRight() && pair.getLeft().equals(move.getLeft()) && pair.getRight().equals(move.getMiddle())) {
-                return true;
+            if(pair.getLeft().equals(move.getLeft()) && pair.getRight().equals(move.getMiddle())) {
+                return 2;
             }
         }
-        return false;
+        return 0;
     }
 
-    private boolean isPositionDrowned(Player other, Ship ship, Pair<Integer, Integer> pair) {
+    /**
+     *
+     * @param other other than the current player
+     * @param ship check if this ship at this position is touch
+     * @param pair coords
+     * @return 1 if ship fully drowned, 2 if only damaged, 0 if not
+     */
+    private int isPositionDrowned(Player other, Ship ship, Pair<Integer, Integer> pair) {
         if(ship.isDrown())
-            return true;
+            return 1;
         return isPositionDrowned(other, pair);
     }
-    
+
+    public abstract void displayWinner(Player winner);
 }

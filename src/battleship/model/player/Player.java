@@ -46,23 +46,20 @@ public abstract class Player {
         return this;
     }
 
-    public boolean isItDrown(Ship ship) {
+    public void updateIsDrown(Ship ship) {
         int cpt = 0;
         for(Triplet<Integer,Integer,Boolean> move : moves){
             for(int i = 1; i <= ship.getSize(); i++){
-                int x = ship.getCoords().getLeft()+ i * ship.getDirection().getDirection().getLeft();
+                int x = ship.getCoords().getLeft() + i * ship.getDirection().getDirection().getLeft();
                 int y = ship.getCoords().getRight()+ i * ship.getDirection().getDirection().getRight();
-                if((move.getLeft() == x) && (move.getMiddle() == y)){
+                if(move.getLeft() == x && move.getMiddle() == y){
                     cpt += 1;
                     break;
                 }
             }
         }
-        if(cpt == ship.getSize()) {
+        if(cpt == ship.getSize())
             ship.setDrown();
-            return true;
-        }
-        return false;
     }
     public ArrayList<Ship> getShips(){
         return this.ships;
@@ -76,10 +73,11 @@ public abstract class Player {
 
     public ArrayList<Pair<Integer,Integer>> validMoves() {
         ArrayList<Pair<Integer,Integer>> validMovesList = new ArrayList<>();
-        for(Integer i = 0; i<10;i++){
-            for(Integer y = 0;y<10;y++) {
-                if(!moves.contains(new Triplet<>(i,y,true)) ||!moves.contains(new Triplet<>(i,y,false))){
-                    validMovesList.add(new Pair<>(i,y));
+        for(int x = 0; x < 10; x++){
+            for(int y = 0; y < 10; y++) {
+                Pair<Integer, Integer> coords = new Pair<>(x,y);
+                if(!moves.contains(new Triplet<>(coords, true)) || !moves.contains(new Triplet<>(coords, false))){
+                    validMovesList.add(new Pair<>(x,y));
                 }
             }
         }

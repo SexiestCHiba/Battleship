@@ -28,43 +28,31 @@ public class Game {
     }
 
     public void changeCurrentPlayer(){
-        currentPlayer = (currentPlayer == players[1])? players[0] : players[1];
+        currentPlayer = getOtherPlayer();
     }
 
     public void checkDrownedShips(){
-        Player otherPlayer = (currentPlayer == players[1])? players[0] : players[1];
+        Player otherPlayer = getOtherPlayer();
         for(Ship ship : currentPlayer.getShips()){
             if(!ship.isDrown())
-                otherPlayer.isItDrown(ship);
+                otherPlayer.updateIsDrown(ship);
         }
     }
 
     public Player getWinner(){
-        int cpt = 0;
-        for(Ship ship : players[0].getShips()){
-            if(!ship.isDrown())
-                break;
-            else
-                cpt ++;
-        }
-        if(cpt == 5)
+        Ship remainingShip = players[0].getShips().parallelStream().filter(ship -> !ship.isDrown()).findFirst().orElse(null);
+        if(remainingShip == null)
             return players[1];
-        cpt = 0;
-        for(Ship ship : players[1].getShips()){
-            if(!ship.isDrown())
-                break;
-            else
-                cpt ++;
-        }
-        if(cpt == 5)
-            return players[0];
+        remainingShip = players[1].getShips().parallelStream().filter(ship -> !ship.isDrown()).findFirst().orElse(null);
+        if(remainingShip == null)
+            return players[1];
         return null;
 
     }
     public void move(Pair<Integer,Integer> move){
         boolean bool = false;
-        Player player = (currentPlayer == players[1])? players[0] : players[1];
-        for (Ship ship : player.getShips()) {
+        Player otherPlayer = getOtherPlayer();
+        for (Ship ship : otherPlayer.getShips()) {
             for(Pair<Integer,Integer> pair : ship.getCoordsArray()){
                 if ((pair.getRight().equals(move.getRight())) && (pair.getLeft().equals(move.getLeft()))) {
                     bool = true;
@@ -72,22 +60,21 @@ public class Game {
                 }
             }
         }
-        currentPlayer.addMove(new Triplet<>(move.getLeft(),move.getRight(),bool));
-
+        currentPlayer.addMove(new Triplet<>(move, bool));
     }
 
-    public Player Play(View view){
+    public void Play(View view){
         view.setShips(players[0]);
         view.setShips(players[1]);
-        System.out.println(view.toString());
-        while(getWinner() == null) {
-            System.out.println(view);
-            Pair<Integer,Integer> move  = currentPlayer.chooseMove();
-            move(move);
+        Player winner = null;
+        while(winner == null) {
+            view.displayBoard();
+            move(currentPlayer.chooseMove());
             changeCurrentPlayer();
             checkDrownedShips();
+            winner = getWinner();
         }
-        return getWinner();
+        view.displayWinner(winner);
     }
 
 

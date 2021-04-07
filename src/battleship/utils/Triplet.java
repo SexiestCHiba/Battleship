@@ -20,6 +20,10 @@ public class Triplet<U, K, V> {
         this.right = right;
     }
 
+    public Triplet(Pair<U, K> pair, V right) {
+        this(pair.getLeft(), pair.getRight(), right);
+    }
+
     public U getLeft() {
         return left;
     }
@@ -44,7 +48,7 @@ public class Triplet<U, K, V> {
             return false;
         }
         final Triplet<?, ?, ?> other = (Triplet<?, ?, ?>) obj;
-        return this.left.equals(other.getLeft()) && this.middle.equals(other.getMiddle()) && this.left.equals(other.getRight());
+        return this.left.equals(other.getLeft()) && this.middle.equals(other.getMiddle()) && this.right.equals(other.getRight());
     }
 
     @Override

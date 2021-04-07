@@ -22,7 +22,8 @@ public class Human extends Player {
         }
         return new Pair<>(x,y);
     }
-    public boolean areValid(int x,int y){
+
+    public boolean areValid(int x, int y){
         if(x <0 || x >10 || y <0 || y >10)
             return false;
         for(Triplet<Integer,Integer,Boolean> move : moves){
