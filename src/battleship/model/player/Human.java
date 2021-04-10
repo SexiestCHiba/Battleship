@@ -6,7 +6,7 @@ import battleship.view.Terminal;
 
 import java.util.Scanner;
 
-public class Human extends Player {
+public class Human extends AbstractPlayer {
 
 
 

@@ -2,7 +2,7 @@ package battleship.model.player;
 
 import battleship.utils.Pair;
 
-public class Random extends Player {
+public class Random extends AbstractPlayer {
 
     @Override
     public Pair<Integer,Integer> chooseMove() {

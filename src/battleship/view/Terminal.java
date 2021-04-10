@@ -9,7 +9,7 @@ import battleship.utils.Pair;
 
 import java.util.Scanner;
 
-public class Terminal extends View {
+public class Terminal extends AbstractView {
 
     public static Scanner scanner = new Scanner(System.in);
 
@@ -23,7 +23,7 @@ public class Terminal extends View {
         int x, y;
         String dir;
         if(player instanceof Human) {
-            for(int i : ships) {
+            for(int i : shipsSize) {
                 boolean valid = false;
                 Ship ship = new Ship(new Pair<>(-1, -1), i, Direction.DEFAULT);
                 while (!player.setShips(ship)) {
@@ -54,7 +54,7 @@ public class Terminal extends View {
             }
         } else {
             // Random
-            player.placeShipRandomly();
+            game.placeShipRandomly(player);
         }
 
 

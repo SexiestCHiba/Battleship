@@ -3,11 +3,10 @@ package battleship.view;
 import battleship.model.Game;
 import battleship.model.player.Player;
 
-import java.awt.Graphics;
 import javax.swing.*;
 import java.awt.*;
 
-public class Window extends View {
+public class Window extends AbstractView {
 
     private JFrame frame;
 
