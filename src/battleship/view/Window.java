@@ -2,13 +2,14 @@ package battleship.view;
 
 import battleship.model.Game;
 import battleship.model.player.Player;
+import battleship.utils.Pair;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class Window extends AbstractView {
 
-    private JFrame frame;
+    private final JFrame frame;
 
     private final int height = 600;
     private final int width = 1200;
@@ -32,6 +33,12 @@ public class Window extends AbstractView {
 	public void displayBoard() {
         frame.paintComponents(frame.getGraphics());
 	}
+
+    @Override
+    public Pair<Integer, Integer> chooseMove(Player player) {
+
+        return null;
+    }
 
     @Override
     public void displayWinner(Player winner) {

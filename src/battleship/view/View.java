@@ -1,6 +1,7 @@
 package battleship.view;
 
 import battleship.model.player.Player;
+import battleship.utils.Pair;
 
 public interface View {
 
@@ -9,6 +10,8 @@ public interface View {
     void setShips(Player player);
 
     void displayBoard();
+
+    Pair<Integer,Integer> chooseMove(Player player);
 
     void displayWinner(Player winner);
 }

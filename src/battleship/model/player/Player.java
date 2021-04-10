@@ -8,9 +8,7 @@ import java.util.ArrayList;
 
 public interface Player {
 
-    ArrayList<Ship> ships = new ArrayList<>();
-    ArrayList<Triplet<Integer,Integer,Boolean>> moves = new ArrayList<>();
-    int[] ShipSize = { 5, 4, 3, 3, 2};
+    int[] shipSize = { 5, 4, 3, 3, 2 };
 
     Pair<Integer,Integer> chooseMove();
 
@@ -18,11 +16,18 @@ public interface Player {
 
     int getId();
 
-    void updateIsDrown(Ship ship);
-
     Player addMove(Triplet<Integer,Integer,Boolean> move);
 
 
+    void setId(int i);
 
+    ArrayList<Pair<Integer,Integer>> validMoves();
 
+    void placeShips();
+
+    boolean areValid(int x, int y);
+
+    ArrayList<Ship> getShips();
+
+    ArrayList<Triplet<Integer,Integer,Boolean>> getMoves();
 }

@@ -50,14 +50,13 @@ public class Terminal extends AbstractView {
                             }
                         }
                     }
+                    ship.recalculateFullCoords();
                 }
             }
         } else {
-            // Random
-            game.placeShipRandomly(player);
+            super.setShips(player);
+            // Computer
         }
-
-
     }
 
     @Override
@@ -66,7 +65,24 @@ public class Terminal extends AbstractView {
     }
 
     @Override
+    public Pair<Integer, Integer> chooseMove(Player player) {
+        if(player instanceof Human) {
+            int x = -1, y = -1;
+            while(!player.areValid(x, y)) {
+                System.out.println("Veuillez indiquer la coordonée x de votre coup");
+                x = scanner.nextInt();
+                System.out.println("Veuillez indiquer la coordonée y de votre coup");
+                y = scanner.nextInt();
+            }
+            return new Pair<>(x,y);
+        }
+        return super.chooseMove(player);
+
+    }
+
+    @Override
     public void displayWinner(Player winner) {
+        displayBoard();
         System.out.println("Le joueur " + winner.getId() + " a gagné");
     }
 

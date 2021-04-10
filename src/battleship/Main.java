@@ -3,6 +3,7 @@ package battleship;
 import battleship.model.Game;
 import battleship.model.player.AbstractPlayer;
 import battleship.model.player.Human;
+import battleship.model.player.Player;
 import battleship.model.player.Random;
 import battleship.utils.Pair;
 import battleship.view.AbstractView;
@@ -35,7 +36,7 @@ public class Main {
     }
 
     private static void parseArgs(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        AbstractPlayer[] players = new AbstractPlayer[2];
+        Player[] players = new AbstractPlayer[2];
         ArrayList<Pair<String, Class<? extends AbstractPlayer>>> playerClass = new ArrayList<>(2);
         playerClass.add(new Pair<>("human", Human.class));
         playerClass.add(new Pair<>("random", Random.class));

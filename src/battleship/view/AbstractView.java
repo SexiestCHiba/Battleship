@@ -23,8 +23,8 @@ public abstract class AbstractView implements View{
         String chain = "";
         for(int u = 0; u < 2; ++u) {
             Player player = game.players[u];
-            ArrayList<Ship> ships = game.players[u].ships;
-            chain += "Player " + (u + 1) + " :\n";
+            ArrayList<Ship> ships = game.players[u].getShips();
+            chain += "Joueur " + player.getId() + " :\n";
             chain += "+ - - - - - - - - - - +\n";
             for(int x = 0; x < 10; ++x) {
                 chain += "|";
@@ -63,24 +63,16 @@ public abstract class AbstractView implements View{
     }
 
     private boolean isShipPosition(Ship ship, Pair<Integer, Integer> boardsCoords) {
-        if(ship.getCoords().equals(boardsCoords))
-            return true;
-        for(int a = 0; a < ship.getSize(); ++a) {
-            if(new Pair<>(ship.getCoords().getLeft() + a * ship.getDirection().getDirection().getLeft(), ship.getCoords().getRight() + a * ship.getDirection().getDirection().getRight()).equals(boardsCoords)) {
+        for(Pair<Integer, Integer> coords : ship.getFullCoords()) {
+            if(boardsCoords.equals(coords))
                 return true;
-            }
         }
         return false;
     }
 
-
-    private int isPositionDrowned(Player other, Pair<Integer, Integer> pair) {
-        for(Triplet<Integer, Integer, Boolean> move : other.moves) {
-            if(pair.getLeft().equals(move.getLeft()) && pair.getRight().equals(move.getMiddle())) {
-                return 2;
-            }
-        }
-        return 0;
+    @Override
+    public void setShips(Player player) {
+        player.placeShips();
     }
 
     /**
@@ -94,5 +86,19 @@ public abstract class AbstractView implements View{
         if(ship.isDrown())
             return 1;
         return isPositionDrowned(other, pair);
+    }
+
+    private int isPositionDrowned(Player other, Pair<Integer, Integer> pair) {
+        for(Triplet<Integer, Integer, Boolean> move : other.getMoves()) {
+            if(pair.getLeft().equals(move.getLeft()) && pair.getRight().equals(move.getMiddle())) {
+                return 2;
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    public Pair<Integer, Integer> chooseMove(Player player) {
+        return player.chooseMove();
     }
 }
