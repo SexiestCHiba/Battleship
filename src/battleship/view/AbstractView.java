@@ -8,7 +8,7 @@ import battleship.utils.Triplet;
 
 import java.util.ArrayList;
 
-public abstract class AbstractView implements View{
+public abstract class AbstractView implements View {
 
 
     protected Game game;

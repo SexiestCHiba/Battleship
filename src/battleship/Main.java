@@ -36,7 +36,7 @@ public class Main {
     }
 
     private static void parseArgs(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        Player[] players = new AbstractPlayer[2];
+        Player[] players = new Player[2];
         ArrayList<Pair<String, Class<? extends AbstractPlayer>>> playerClass = new ArrayList<>(2);
         playerClass.add(new Pair<>("human", Human.class));
         playerClass.add(new Pair<>("random", Random.class));
