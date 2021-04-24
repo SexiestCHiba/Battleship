@@ -12,6 +12,7 @@ import battleship.view.Window;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public class Main {
@@ -48,7 +49,10 @@ public class Main {
                     }
                 }
             }
-            game = new Game(players);
+            if(players[0] != null && players[1] != null) {
+                game = new Game(players);
+            } else
+                throw new IllegalArgumentException("Arguments incorrects: " + Arrays.toString(args));
             if(args.length >= 3) {
                 // arguments > 3 ignorés
                 if(args[2].equalsIgnoreCase("nogui"))
