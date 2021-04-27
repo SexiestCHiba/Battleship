@@ -71,60 +71,57 @@ public class Window extends AbstractView {
             g.drawString(upperText, (int) (window.width /2 - (upperText.length() * 2.5)), 50);
             int width = window.width;
             int height = window.height;
-            for (int abscisse = width / 24; abscisse< width +1; abscisse+= width / 24) {
-                g.drawLine(abscisse, height /6, abscisse, height);
-                if ( width * 0.44167 < abscisse && abscisse < width / 2) {
-                    abscisse += width / 24 ;
-                }
+            int initialHeight = height / 12;
+            int initialWidth = width / 23;
+            for(int abscisse = initialWidth; abscisse < width; abscisse += initialWidth) {
+                g.drawLine(abscisse, initialHeight * 2, abscisse, height);
+                if(abscisse == initialWidth * 11)
+                    abscisse += initialWidth;
             }
-            for (int ordonnee = height / 6; ordonnee< height +1; ordonnee+= height / 12) {
-                g.drawLine(width / 24, ordonnee, (int) (width /2.18), ordonnee);
-                g.drawLine((int) (width / 1.845), ordonnee, width, ordonnee);
+            for(int ordonnee = initialHeight * 2; ordonnee < height + 1; ordonnee += initialHeight) {
+                g.drawLine(initialWidth, ordonnee, initialWidth * 11, ordonnee);
+                g.drawLine(initialWidth * 13, ordonnee, width - 4, ordonnee);
             }
             // TODO: 12/04/2021 Dessiner les navires
-            int initialHeight = height / 12;
+
             for(int i = 1; i < 3; ++i) {
-                int initialWidth = width / 24;
                 Player player = game.players[i-1];
-                System.out.println(i);
                 for(Ship ship : player.getShips()) {
-                    int x1 = 0;
-                    int y1 = 0;
-                    int shipWidth = 0;
-                    int shipHeight = 0;
+                    int x1 = i == 1 ? initialWidth : initialWidth * 13;
+                    int y1 = initialHeight * 2;
+                    int shipWidth = initialWidth;
+                    int shipHeight = initialHeight;
+                    System.out.println(ship);
                     switch(ship.getDirection()) {
                         case DOWN:
-                            x1 = initialWidth * ship.getCoords().getRight();
-                            y1 = initialHeight * ship.getCoords().getLeft();
-                            shipWidth = initialWidth;
+                            x1 += initialWidth * ship.getCoords().getRight();
+                            y1 += initialHeight * ship.getCoords().getLeft();
                             shipHeight = initialHeight * ship.getSize();
+                            g.setColor(new Color(255, 0, 0));
                             break;
                         case UP:
-                            shipWidth = initialWidth;
+                            x1 += initialWidth * ship.getCoords().getRight();
                             shipHeight = initialHeight * ship.getSize();
-                            x1 = initialWidth * ship.getCoords().getRight();
-                            y1 = initialHeight * ship.getCoords().getLeft() - shipHeight;
+                            y1 += initialHeight * ship.getCoords().getLeft() - shipHeight + initialHeight;
+                            g.setColor(new Color(255, 255, 0));
                             break;
                         case RIGHT:
-                            x1 = initialWidth * ship.getCoords().getRight();
-                            y1 = initialHeight * ship.getCoords().getLeft();
+                            x1 += initialWidth * ship.getCoords().getRight();
+                            y1 += initialHeight * ship.getCoords().getLeft();
                             shipWidth = initialWidth * ship.getSize();
-                            shipHeight = initialHeight;
+                            g.setColor(new Color(0, 255, 0));
                             break;
                         case LEFT:
                             shipWidth = initialWidth * ship.getSize();
-                            shipHeight = initialHeight;
-                            x1 = initialWidth * ship.getCoords().getRight() - shipWidth;
-                            y1 = initialHeight * ship.getCoords().getLeft();
+                            x1 += initialWidth * ship.getCoords().getRight() - shipWidth + initialWidth;
+                            y1 += initialHeight * ship.getCoords().getLeft();
+                            g.setColor(new Color(0, 0, 255));
                             break;
                     }
-                    x1 += i == 1 ? initialWidth : initialWidth + width / 2;
-                    y1 += height / 6;
-                    g.setColor(new Color(255, 0, 0));
                     g.fillRect(x1, y1, shipWidth, shipHeight);
                 }
             }
-            System.out.println(window.toString());
+            System.out.println(window);
         }
     }
 }
