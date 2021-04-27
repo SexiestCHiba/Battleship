@@ -4,8 +4,6 @@ import battleship.model.player.Player;
 import battleship.utils.Pair;
 import battleship.utils.Triplet;
 
-import java.util.Arrays;
-
 public class Ship {
 
     private Pair<Integer, Integer> coords;

@@ -1,6 +1,8 @@
 package battleship.view;
 
+import battleship.control.WindowKeyboardListener;
 import battleship.control.WindowMouseListener;
+import battleship.model.Direction;
 import battleship.model.Game;
 import battleship.model.Ship;
 import battleship.model.player.Human;
@@ -9,6 +11,7 @@ import battleship.utils.Pair;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class Window extends AbstractView {
 
@@ -17,7 +20,9 @@ public class Window extends AbstractView {
     public final int height = 600;
     public final int width = 1200;
     private final WindowMouseListener mouseComponent;
-    String upperText = "";
+    private final WindowKeyboardListener keyboardComponent;
+    String upperTitle = "";
+    String upperSubTitle = "";
 
     public Window(Game game) {
         super(game);
@@ -29,39 +34,86 @@ public class Window extends AbstractView {
         frame.setVisible(true);
         this.mouseComponent = new WindowMouseListener(this);
         frame.addMouseListener(mouseComponent);
+        this.keyboardComponent = new WindowKeyboardListener(this);
+        frame.addKeyListener(keyboardComponent);
 
+    }
+
+    @Override
+    protected String getKeyInput() throws InterruptedException {
+        return waitingForKeyboardInput();
+    }
+
+    @Override
+    protected void setUpperText(String s) {
+        upperTitle = s;
     }
 
     @Override
     public void setShips(Player player) throws InterruptedException {
         if(player instanceof Human) {
             for(int i : shipsSize) {
-                upperText = "joueur " + player.getId() + ", Placez votre premier navire de taille " + i + " à l'aide de la souris";
-                Pair<Integer, Integer> coords = waitingForMouseInput(player);
-                upperText = "joueur " + player.getId() + ", Choisissez la direction de votre navire avec le clavier\n" +
-                        "H, B, G, D pour respectivement Haut, Bas, Gauche, Droite";
-                // TODO: 27/04/2021 implementer clavier
-            }
+                Ship ship = new Ship(new Pair<>(-1, -1), i, Direction.DEFAULT);
+                boolean valid = false;
+                while(!player.setShips(ship)) {
+                    frame.repaint();
+                    if(valid)
+                        openDialog("Erreur de placement, votre navire se superpose avec un autre, ou la direction donnée n'est pas valide");
 
+                    upperTitle = "joueur " + player.getId() + ", Placez votre premier navire de taille " + i + " à l'aide de la souris";
+                    ship.setCoords(waitingForMouseInput(player));
+                    upperTitle = "joueur " + player.getId() + ", Choisissez la direction de votre navire avec le clavier";
+                    upperSubTitle = "H, B, G, D pour respectivement Haut, Bas, Gauche, Droite";
+                    frame.repaint();
+                    ship.setDirection(getDirectionFromChar());
+                    ship.recalculateFullCoords();
+                    valid = true;
+                }
+
+            }
+            upperTitle = "";
+            upperSubTitle = "";
         } else {
             super.setShips(player);
+        }
+    }
+
+    private String waitingForKeyboardInput() throws InterruptedException {
+        keyboardComponent.requestInput = true;
+        while(true) {
+            Thread.sleep(32);
+            if(keyboardComponent.keyTyped != KeyEvent.CHAR_UNDEFINED) {
+                keyboardComponent.requestInput = false;
+                String value = String.valueOf(keyboardComponent.keyTyped).toUpperCase();
+                keyboardComponent.keyTyped = KeyEvent.CHAR_UNDEFINED;
+               return value;
+            }
         }
     }
 
     private Pair<Integer, Integer> waitingForMouseInput(Player player) throws InterruptedException {
         mouseComponent.requestInput = true;
         while(true) {
-            Thread.sleep(33);
+            Thread.sleep(32);
             if(mouseComponent.playerIdLastInput != 0) {
                 if(player.getId() == mouseComponent.playerIdLastInput) {
-                    return mouseComponent.lastInput;
+                    mouseComponent.requestInput = false;
+                    mouseComponent.playerIdLastInput = 0;
+                    Pair<Integer, Integer> value = mouseComponent.lastInput;
+                    mouseComponent.lastInput = null;
+                    System.out.println(value);
+                    return value;
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Vous avez cliquer sur une zone de jeu qui n'est pas la votre");
+                    openDialog("Vous avez cliquer sur une zone de jeu qui n'est pas la votre");
                     mouseComponent.playerIdLastInput = 0;
                 }
             }
 
         }
+    }
+
+    public void openDialog(String message) {
+        JOptionPane.showMessageDialog(frame, message);
     }
 
     @Override
@@ -89,7 +141,8 @@ public class Window extends AbstractView {
         }
 
         public void paintComponent(Graphics g) {
-            g.drawString(upperText, (int) (window.width /2 - (upperText.length() * 2.5)), 50);
+            g.drawString(upperTitle, (int) (window.width /2 - (upperTitle.length() * 2.5)), 50);
+            g.drawString(upperSubTitle, (int) (window.width / 2 -  (upperSubTitle.length() * 2.5)), 65);
             int width = window.width;
             int height = window.height;
             int initialHeight = height / 12;

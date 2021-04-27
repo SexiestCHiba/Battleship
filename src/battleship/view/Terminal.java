@@ -18,10 +18,19 @@ public class Terminal extends AbstractView {
     }
 
     @Override
+    protected String getKeyInput() {
+        return scanner.next().toUpperCase();
+    }
+
+    @Override
+    protected void setUpperText(String s) {
+        System.out.println(s);
+    }
+
+    @Override
     public void setShips(Player player) throws InterruptedException {
         System.out.println("Joueur " + player.getId() + ", placez vos navires");
         int x, y;
-        String dir;
         if(player instanceof Human) {
             for(int i : shipsSize) {
                 boolean valid = false;
@@ -37,19 +46,7 @@ public class Terminal extends AbstractView {
                     System.out.println("Veuillez indiquer la coordonée y de votre bateau");
                     y = scanner.nextInt();
                     ship.setCoords(new Pair<>(x, y));
-                    boolean validDirection = false;
-                    while (!validDirection) {
-                        System.out.println("Veuillez indiquer la direction de placement de votre bateau (d droite, h haut, b bas, g gauche)");
-                        dir = scanner.next().toUpperCase();
-                        for (Direction direction : Direction.values()) {
-                            if (direction.getKeyword() != null && direction.getKeyword().equals(dir)) {
-                                ship.setDirection(direction);
-                                System.out.println(direction);
-                                validDirection = true;
-                                break;
-                            }
-                        }
-                    }
+                    ship.setDirection(getDirectionFromChar());
                     ship.recalculateFullCoords();
                 }
             }

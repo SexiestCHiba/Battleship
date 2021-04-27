@@ -1,5 +1,6 @@
 package battleship.view;
 
+import battleship.model.Direction;
 import battleship.model.Game;
 import battleship.model.Ship;
 import battleship.model.player.Player;
@@ -69,6 +70,23 @@ public abstract class AbstractView implements View {
         }
         return false;
     }
+
+    protected Direction getDirectionFromChar() throws InterruptedException {
+        String dir;
+        while (true) {
+            setUpperText("Veuillez indiquer la direction de placement de votre bateau (d droite, h haut, b bas, g gauche)");
+            dir = getKeyInput();
+            for (Direction direction : Direction.values()) {
+                if (direction.getKeyword() != null && direction.getKeyword().equals(dir)) {
+                    return direction;
+                }
+            }
+        }
+    }
+
+    protected abstract String getKeyInput() throws InterruptedException;
+
+    protected abstract void setUpperText(String s);
 
     @Override
     public void setShips(Player player) throws InterruptedException {
