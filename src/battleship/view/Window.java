@@ -32,10 +32,10 @@ public class Window extends AbstractView {
 
     @Override
     public void setShips(Player player) {
-        upperText = "Placez votre navire joueur " + player.getId();
         if(player instanceof Human) {
             for(int i : shipsSize) {
-                upperText += "Placez votre premier navire de taille " + i + " à l'aide de la souris";
+                upperText = "joueur " + player.getId() + ", Placez votre premier navire de taille " + i + " à l'aide de la souris";
+
             }
 
         } else {
@@ -82,7 +82,6 @@ public class Window extends AbstractView {
                 g.drawLine(initialWidth, ordonnee, initialWidth * 11, ordonnee);
                 g.drawLine(initialWidth * 13, ordonnee, width - 4, ordonnee);
             }
-            // TODO: 12/04/2021 Dessiner les navires
 
             for(int i = 1; i < 3; ++i) {
                 Player player = game.players[i-1];
