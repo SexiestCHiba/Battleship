@@ -18,7 +18,7 @@ public class Terminal extends AbstractView {
     }
 
     @Override
-    public void setShips(Player player) {
+    public void setShips(Player player) throws InterruptedException {
         System.out.println("Joueur " + player.getId() + ", placez vos navires");
         int x, y;
         String dir;
@@ -61,7 +61,7 @@ public class Terminal extends AbstractView {
 
     @Override
     public void displayBoard() {
-        System.out.println(toString());
+        System.out.println(this);
     }
 
     @Override

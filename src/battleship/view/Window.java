@@ -16,6 +16,7 @@ public class Window extends AbstractView {
 
     public final int height = 600;
     public final int width = 1200;
+    private final WindowMouseListener mouseComponent;
     String upperText = "";
 
     public Window(Game game) {
@@ -26,16 +27,20 @@ public class Window extends AbstractView {
         frame.setContentPane(new Draw(this));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        frame.addMouseListener(new WindowMouseListener(this));
+        this.mouseComponent = new WindowMouseListener(this);
+        frame.addMouseListener(mouseComponent);
 
     }
 
     @Override
-    public void setShips(Player player) {
+    public void setShips(Player player) throws InterruptedException {
         if(player instanceof Human) {
             for(int i : shipsSize) {
                 upperText = "joueur " + player.getId() + ", Placez votre premier navire de taille " + i + " à l'aide de la souris";
-
+                Pair<Integer, Integer> coords = waitingForMouseInput(player);
+                upperText = "joueur " + player.getId() + ", Choisissez la direction de votre navire avec le clavier\n" +
+                        "H, B, G, D pour respectivement Haut, Bas, Gauche, Droite";
+                // TODO: 27/04/2021 implementer clavier
             }
 
         } else {
@@ -43,7 +48,23 @@ public class Window extends AbstractView {
         }
     }
 
-	@Override
+    private Pair<Integer, Integer> waitingForMouseInput(Player player) throws InterruptedException {
+        mouseComponent.requestInput = true;
+        while(true) {
+            Thread.sleep(33);
+            if(mouseComponent.playerIdLastInput != 0) {
+                if(player.getId() == mouseComponent.playerIdLastInput) {
+                    return mouseComponent.lastInput;
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Vous avez cliquer sur une zone de jeu qui n'est pas la votre");
+                    mouseComponent.playerIdLastInput = 0;
+                }
+            }
+
+        }
+    }
+
+    @Override
 	public void displayBoard() {
         frame.paintComponents(frame.getGraphics());
 	}

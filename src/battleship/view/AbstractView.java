@@ -71,7 +71,7 @@ public abstract class AbstractView implements View {
     }
 
     @Override
-    public void setShips(Player player) {
+    public void setShips(Player player) throws InterruptedException {
         player.placeShips();
     }
 

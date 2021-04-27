@@ -65,8 +65,14 @@ public class Game {
     }
 
     public void Play(AbstractView view){
-        view.setShips(players[0]);
-        view.setShips(players[1]);
+        try {
+            view.setShips(players[0]);
+            view.setShips(players[1]);
+        } catch (InterruptedException e) {
+            System.out.println("Une erreur est survenue");
+            e.printStackTrace();
+            System.exit(1);
+        }
         Player winner = null;
         while(winner == null) {
             System.out.println("Au tour du joueur " + currentPlayer.getId());

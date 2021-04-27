@@ -9,6 +9,9 @@ import java.awt.event.MouseListener;
 public class WindowMouseListener implements MouseListener {
 
     private final Window window;
+    public boolean requestInput = false;
+    public Pair<Integer, Integer> lastInput = null;
+    public int playerIdLastInput = 0;
 
     public WindowMouseListener(Window view) {
         this.window = view;
@@ -16,25 +19,24 @@ public class WindowMouseListener implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        int x = e.getX() - 7;
-        int y = e.getY() - 30;
-        int initialHeight = window.height / 12;
-        int initialWidth = window.width / 23;
-        if(y >= initialHeight * 2 && y <= window.height) {
-            y -= initialHeight * 2;
-            if(x >= initialWidth && x <= initialWidth * 11) {
-                x -= initialWidth;
-                System.out.println("Player 1");
-                Pair<Integer, Integer> location = new Pair<>(y / initialHeight, x / initialWidth);
-                System.out.println(location);
-            } else if(x >= initialHeight * 13 && x <= window.width) {
-                x -= initialWidth * 13;
-                System.out.println("Player 2");
-                Pair<Integer, Integer> location = new Pair<>(y / initialHeight, x / initialWidth);
-                System.out.println("location: " + location);
+        if(requestInput) {
+            int x = e.getX() - 7;
+            int y = e.getY() - 30;
+            int initialHeight = window.height / 12;
+            int initialWidth = window.width / 23;
+            if(y >= initialHeight * 2 && y <= window.height) {
+                y -= initialHeight * 2;
+                if(x >= initialWidth && x <= initialWidth * 11) {
+                    x -= initialWidth;
+                    lastInput = new Pair<>(y / initialHeight, x / initialWidth);
+                    playerIdLastInput = 1;
+                } else if(x >= initialHeight * 13 && x <= window.width) {
+                    x -= initialWidth * 13;
+                    lastInput = new Pair<>(y / initialHeight, x / initialWidth);
+                    playerIdLastInput = 2;
+                }
             }
         }
-        System.out.println("(" + x + ", " + y + ")");
     }
 
     @Override

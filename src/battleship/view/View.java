@@ -7,7 +7,7 @@ public interface View {
 
     int[] shipsSize = { 5, 4, 3, 3, 2};
 
-    void setShips(Player player);
+    void setShips(Player player) throws InterruptedException;
 
     void displayBoard();
 
