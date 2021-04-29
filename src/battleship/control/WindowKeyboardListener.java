@@ -10,6 +10,7 @@ public class WindowKeyboardListener implements KeyListener {
     private final Window window;
     public boolean requestInput = false;
     public char keyTyped = KeyEvent.CHAR_UNDEFINED;
+    public int keyTypedArrow = KeyEvent.VK_UNDEFINED;
 
     public WindowKeyboardListener(Window window) {
         this.window = window;
@@ -20,6 +21,9 @@ public class WindowKeyboardListener implements KeyListener {
         if(requestInput) {
             if(e.getKeyChar() != KeyEvent.CHAR_UNDEFINED)
                 keyTyped = e.getKeyChar();
+            if(e.getKeyCode() != KeyEvent.VK_UNDEFINED)
+            	System.out.println(e.getKeyCode());
+                keyTypedArrow = e.getKeyCode();
         }
     }
 
