@@ -21,9 +21,11 @@ public class WindowKeyboardListener implements KeyListener {
         if(requestInput) {
             if(e.getKeyChar() != KeyEvent.CHAR_UNDEFINED)
                 keyTyped = e.getKeyChar();
-            if(e.getKeyCode() != KeyEvent.VK_UNDEFINED)
-            	System.out.println(e.getKeyCode());
+            if(e.getKeyCode() != KeyEvent.VK_UNDEFINED) {
+                System.out.println(e.getKeyCode());
                 keyTypedArrow = e.getKeyCode();
+            }
+
         }
     }
 

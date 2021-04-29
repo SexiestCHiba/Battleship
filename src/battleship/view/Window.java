@@ -8,10 +8,12 @@ import battleship.model.Ship;
 import battleship.model.player.Human;
 import battleship.model.player.Player;
 import battleship.utils.Pair;
+import battleship.utils.Triplet;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.geom.RoundRectangle2D;
 
 public class Window extends AbstractView {
 
@@ -81,7 +83,7 @@ public class Window extends AbstractView {
     private String waitingForKeyboardInput() throws InterruptedException {
         keyboardComponent.requestInput = true;
         while(true) {
-            Thread.sleep(32);
+            Thread.sleep(25);
             if(keyboardComponent.keyTyped != KeyEvent.CHAR_UNDEFINED) {
                 keyboardComponent.requestInput = false;
                 String value = String.valueOf(keyboardComponent.keyTyped).toUpperCase();
@@ -94,7 +96,7 @@ public class Window extends AbstractView {
     private Pair<Integer, Integer> waitingForMouseInput(Player player) throws InterruptedException {
         mouseComponent.requestInput = true;
         while(true) {
-            Thread.sleep(32);
+            Thread.sleep(25);
             if(mouseComponent.playerIdLastInput != 0) {
                 if(player.getId() == mouseComponent.playerIdLastInput) {
                     mouseComponent.requestInput = false;
@@ -112,8 +114,14 @@ public class Window extends AbstractView {
         }
     }
 
-    public void openDialog(String message) {
+    public void openDialog(String message, boolean exitOnClose) {
         JOptionPane.showMessageDialog(frame, message);
+        if(exitOnClose)
+            System.exit(0);
+    }
+
+    public void openDialog(String message) {
+        openDialog(message, false);
     }
 
     @Override
@@ -122,14 +130,27 @@ public class Window extends AbstractView {
 	}
 
     @Override
-    public Pair<Integer, Integer> chooseMove(Player player) {
+    public Pair<Integer, Integer> chooseMove(Player player) throws InterruptedException {
+        setUpperText("Joueur " + player.getId() + " cliquer sur l'emplacement ou vous souhaitez tirer");
+        frame.repaint();
+        if(player instanceof Human) {
+            Pair<Integer, Integer> coords = new Pair<>(-1, -1);
+            boolean valid = false;
+            while(!player.areValid(coords.getLeft(), coords.getRight())) {
+                if(valid)
+                    openDialog("Erreur de placement, ce coup a déjà été effectué");
+                valid = true;
+                coords = waitingForMouseInput(game.getOtherPlayer(player));
+            }
+            return coords;
+        }
+        return super.chooseMove(player);
 
-        return null;
     }
 
     @Override
     public void displayWinner(Player winner) {
-        // TODO: 07/04/2021 afficher un dialog
+        openDialog("Le joueur " + winner.getId() + " a gagné(e)", true);
     }
 
     class Draw extends JPanel {
@@ -141,20 +162,22 @@ public class Window extends AbstractView {
         }
 
         public void paintComponent(Graphics g) {
-            g.drawString(upperTitle, (int) (window.width /2 - (upperTitle.length() * 2.5)), 50);
-            g.drawString(upperSubTitle, (int) (window.width / 2 -  (upperSubTitle.length() * 2.5)), 65);
+            super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D)g;
+            g2d.drawString(upperTitle, (int) (window.width /2 - (upperTitle.length() * 2.5)), 50);
+            g2d.drawString(upperSubTitle, (int) (window.width / 2 -  (upperSubTitle.length() * 2.5)), 65);
             int width = window.width;
             int height = window.height;
             int initialHeight = height / 12;
             int initialWidth = width / 23;
             for(int abscisse = initialWidth; abscisse < width; abscisse += initialWidth) {
-                g.drawLine(abscisse, initialHeight * 2, abscisse, height);
+                g2d.drawLine(abscisse, initialHeight * 2, abscisse, height);
                 if(abscisse == initialWidth * 11)
                     abscisse += initialWidth;
             }
             for(int ordonnee = initialHeight * 2; ordonnee < height + 1; ordonnee += initialHeight) {
-                g.drawLine(initialWidth, ordonnee, initialWidth * 11, ordonnee);
-                g.drawLine(initialWidth * 13, ordonnee, width - 4, ordonnee);
+                g2d.drawLine(initialWidth, ordonnee, initialWidth * 11, ordonnee);
+                g2d.drawLine(initialWidth * 13, ordonnee, width - 4, ordonnee);
             }
 
             for(int i = 1; i < 3; ++i) {
@@ -164,13 +187,12 @@ public class Window extends AbstractView {
                     int y1 = initialHeight * 2;
                     int shipWidth = initialWidth;
                     int shipHeight = initialHeight;
-                    System.out.println(ship);
                     switch(ship.getDirection()) {
                         case DOWN:
                             x1 += initialWidth * ship.getCoords().getRight();
                             y1 += initialHeight * ship.getCoords().getLeft();
                             shipHeight = initialHeight * ship.getSize();
-                            g.setColor(new Color(255, 0, 0));
+                            g.setColor(new Color(0, 255, 255));
                             break;
                         case UP:
                             x1 += initialWidth * ship.getCoords().getRight();
@@ -191,7 +213,30 @@ public class Window extends AbstractView {
                             g.setColor(new Color(0, 0, 255));
                             break;
                     }
-                    g.fillRect(x1, y1, shipWidth, shipHeight);
+                    g2d.fillRect(x1, y1, shipWidth, shipHeight);
+                }
+            }
+            for(int i = 1; i < 3; ++i) {
+                Player player = game.players[i-1];
+                int halfBoxSizeWidth = initialWidth / 2;
+                int halfBoxSizeHeight = initialHeight / 2;
+                int sqrt = (int) Math.sqrt(initialHeight * initialHeight + initialWidth * initialWidth);
+                for(Triplet<Integer, Integer, Boolean> move : player.getMoves()) {
+                    int x1 = (i == 1 ? initialWidth * 13 : initialWidth) + initialWidth * move.getMiddle();
+                    int y1 = initialHeight * 2 + initialHeight * move.getLeft();
+                    RoundRectangle2D rect = new RoundRectangle2D.Float(x1, y1, initialWidth / 4f, sqrt, 15, 15);
+                    if(move.getRight()) {
+                        g.setColor(new Color(255, 0, 0));
+                    } else {
+                        g.setColor(new Color(0, 123, 255));
+                    }
+                    g2d.rotate(Math.toRadians(45), x1, y1);
+                    g2d.fill(rect);
+                    // g2d.rotate(Math.toRadians(-45), x1, y1);
+                    g2d.rotate(Math.toRadians(-90), x1 + halfBoxSizeWidth, y1 + halfBoxSizeHeight);
+                    g2d.fill(rect);
+                    g2d.rotate(Math.toRadians(90), x1 + halfBoxSizeWidth, y1 + halfBoxSizeHeight);
+                    g2d.rotate(Math.toRadians(-45), x1, y1);
                 }
             }
             System.out.println(window);

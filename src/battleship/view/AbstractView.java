@@ -116,7 +116,7 @@ public abstract class AbstractView implements View {
     }
 
     @Override
-    public Pair<Integer, Integer> chooseMove(Player player) {
+    public Pair<Integer, Integer> chooseMove(Player player) throws InterruptedException {
         return player.chooseMove();
     }
 }

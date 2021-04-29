@@ -62,14 +62,17 @@ public class Terminal extends AbstractView {
     }
 
     @Override
-    public Pair<Integer, Integer> chooseMove(Player player) {
+    public Pair<Integer, Integer> chooseMove(Player player) throws InterruptedException {
         if(player instanceof Human) {
             int x = -1, y = -1;
             while(!player.areValid(x, y)) {
+                // y correspond à l'ordonnée mais est stocké comme étant l'abscisse
+                // (erreur de notre part aperçu lors du passage à une fenetre swing)
                 System.out.println("Veuillez indiquer la coordonée x de votre coup");
-                x = scanner.nextInt();
-                System.out.println("Veuillez indiquer la coordonée y de votre coup");
                 y = scanner.nextInt();
+                System.out.println("Veuillez indiquer la coordonée y de votre coup");
+                x = scanner.nextInt();
+
             }
             return new Pair<>(x,y);
         }

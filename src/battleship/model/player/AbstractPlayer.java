@@ -55,10 +55,10 @@ public abstract class AbstractPlayer implements Player {
     }
 
     public boolean areValid(int x, int y){
-        if(x <0 || x >10 || y <0 || y >10)
+        if(x < 0 || x > 10 || y < 0 || y > 10)
             return false;
         for(Triplet<Integer,Integer,Boolean> move : moves){
-            if((move.getLeft() == x) && (move.getMiddle() == y) )
+            if(move.getLeft() == x && move.getMiddle() == y)
                 return false;
         }
         return true;

@@ -11,7 +11,7 @@ public interface View {
 
     void displayBoard();
 
-    Pair<Integer,Integer> chooseMove(Player player);
+    Pair<Integer,Integer> chooseMove(Player player) throws InterruptedException;
 
     void displayWinner(Player winner);
 }

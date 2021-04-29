@@ -1,8 +1,8 @@
 package battleship.model;
 
 import battleship.utils.Pair;
+
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public enum Direction {
 

@@ -26,6 +26,10 @@ public class Game {
         return this.currentPlayer == players[0] ? players[1] : players[0];
     }
 
+    public Player getOtherPlayer(Player player) {
+        return this.currentPlayer == player ? getOtherPlayer() : currentPlayer;
+    }
+
     public void changeCurrentPlayer(){
         currentPlayer = getOtherPlayer();
     }
@@ -64,25 +68,25 @@ public class Game {
         currentPlayer.addMove(new Triplet<>(move, bool));
     }
 
-    public void Play(AbstractView view){
+    public void Play(AbstractView view) {
         try {
             view.setShips(players[0]);
             view.setShips(players[1]);
+            Player winner = null;
+            while (winner == null) {
+                System.out.println("Au tour du joueur " + currentPlayer.getId());
+                view.displayBoard();
+                move(view.chooseMove(currentPlayer));
+                checkDrownedShips();
+                changeCurrentPlayer();
+                winner = getWinner();
+            }
+            view.displayWinner(winner);
         } catch (InterruptedException e) {
             System.out.println("Une erreur est survenue");
             e.printStackTrace();
             System.exit(1);
         }
-        Player winner = null;
-        while(winner == null) {
-            System.out.println("Au tour du joueur " + currentPlayer.getId());
-            view.displayBoard();
-            move(view.chooseMove(currentPlayer));
-            checkDrownedShips();
-            changeCurrentPlayer();
-            winner = getWinner();
-        }
-        view.displayWinner(winner);
-    }
 
+    }
 }
