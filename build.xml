@@ -1,0 +1,55 @@
+<project name="battleship" default="packaging" basedir=".">
+    <property name="project.sources.dir" value="src"/>
+    <property name="project.bin.dir" value="bin"/>
+    <property name="project.resources.dir" value="resources"/>
+
+    <!-- program arguments -->
+    <!-- Possible values: "Human" or "Random" -->
+    <property name="argument.player1" value="Human" />
+    <property name="argument.player2" value="Random"/>
+
+    <!-- Possible values: "nogui" or empty string -->
+    <property name="argument.gui" value="" />
+    <!-- end program arguments -->
+    <path id="project.classpath">
+        <pathelement location="${project.bin.dir}"/>
+    </path>
+    <target name="init">
+        <echo message="Initialisation de ${ant.project.name}"/>
+        <mkdir dir="${basedir}/${project.bin.dir}"/>
+    </target>
+    <target name="compile" description="Compilation des classes" depends="init">
+        <javac srcdir="${project.sources.dir}" encoding="utf8" destdir="${project.bin.dir}" debug="on" optimize="on" deprecation="on" includeantruntime="false">
+            <classpath refid="project.classpath"/>
+        </javac>
+    </target>
+    <target name="run" description="execution" depends="compile">
+        <java classname="${ant.project.name}.Main" fork="true">
+            <jvmarg value="-Dfile.encoding=UTF-8"/>
+            <jvmarg value="-XX:+UseG1GC"/>
+            <jvmarg value="-XX:+ParallelRefProcEnabled"/>
+            <arg value="${argument.player1}" />
+            <arg value="${argument.player2}" />
+            <arg value="${argument.gui}" />
+            <classpath refid="project.classpath"/>
+        </java>
+    </target>
+    <target description="génération de la javadoc" name="javadoc">
+        <javadoc sourcepath="src" destdir="doc" access="private" encoding="utf8" overview="overview.html" >
+            <fileset dir="src" defaultexcludes="yes">
+                <include name="**"/>
+            </fileset>
+	    <classpath refid="project.classpath"/>
+        </javadoc>
+    </target>
+    <target name="packaging" depends="compile">
+        <mkdir dir="${project.bin.dir}/META-INF" />
+        <mkdir dir="build"/>
+        <manifest file="${project.bin.dir}/META-INF/MANIFEST.MF">
+            <attribute name="Class-Path" value="." />
+            <attribute name="Main-Class" value="${ant.project.name}.Main" />
+            <attribute name="Built-By" value="${user.name} with Apache Ant"/>
+        </manifest>
+        <jar jarfile="build/${ant.project.name}.jar" basedir="${project.bin.dir}" manifest="${project.bin.dir}/META-INF/MANIFEST.MF"/>
+    </target>
+</project>
