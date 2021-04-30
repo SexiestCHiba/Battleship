@@ -43,7 +43,7 @@ public class Window extends AbstractView {
 
     @Override
     protected String getKeyInput() throws InterruptedException {
-        return waitingForKeyboardInput();
+        return keyboardInput();
     }
 
     @Override
@@ -63,7 +63,7 @@ public class Window extends AbstractView {
                         openDialog("Erreur de placement, votre navire se superpose avec un autre, ou la direction donnée n'est pas valide");
 
                     upperTitle = "joueur " + player.getId() + ", Placez votre premier navire de taille " + i + " à l'aide de la souris";
-                    ship.setCoords(waitingForMouseInput(player));
+                    ship.setCoords(mouseInput(player));
                     upperTitle = "joueur " + player.getId() + ", Choisissez la direction de votre navire avec le clavier";
                     upperSubTitle = "H, B, G, D pour respectivement Haut, Bas, Gauche, Droite";
                     frame.repaint();
@@ -80,7 +80,8 @@ public class Window extends AbstractView {
         }
     }
 
-    private String waitingForKeyboardInput() throws InterruptedException {
+    @Override
+    protected String keyboardInput() throws InterruptedException {
         keyboardComponent.requestInput = true;
         while(true) {
             Thread.sleep(25);
@@ -93,7 +94,8 @@ public class Window extends AbstractView {
         }
     }
 
-    private Pair<Integer, Integer> waitingForMouseInput(Player player) throws InterruptedException {
+    @Override
+    protected Pair<Integer, Integer> mouseInput(Player player) throws InterruptedException {
         mouseComponent.requestInput = true;
         while(true) {
             Thread.sleep(25);
@@ -140,7 +142,7 @@ public class Window extends AbstractView {
                 if(valid)
                     openDialog("Erreur de placement, ce coup a déjà été effectué");
                 valid = true;
-                coords = waitingForMouseInput(game.getOtherPlayer(player));
+                coords = mouseInput(game.getOtherPlayer(player));
             }
             return coords;
         }

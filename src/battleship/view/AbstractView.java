@@ -119,4 +119,8 @@ public abstract class AbstractView implements View {
     public Pair<Integer, Integer> chooseMove(Player player) throws InterruptedException {
         return player.chooseMove();
     }
+
+    protected abstract Pair<Integer, Integer> mouseInput(Player player) throws InterruptedException;
+
+    protected abstract String keyboardInput() throws InterruptedException;
 }
