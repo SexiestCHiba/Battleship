@@ -45,7 +45,7 @@ public abstract class AbstractPlayer implements Player {
         for(int x = 0; x < 10; x++){
             for(int y = 0; y < 10; y++) {
                 Pair<Integer, Integer> coords = new Pair<>(x,y);
-                if(!moves.contains(new Triplet<>(coords, true)) || !moves.contains(new Triplet<>(coords, false))){
+                if(!(moves.contains(new Triplet<>(coords, true)) || moves.contains(new Triplet<>(coords, false)))){
                     validMovesList.add(new Pair<>(x,y));
                 }
             }

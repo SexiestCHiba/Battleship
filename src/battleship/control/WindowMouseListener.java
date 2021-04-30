@@ -28,11 +28,11 @@ public class WindowMouseListener implements MouseListener {
                 y -= initialHeight * 2;
                 if(x >= initialWidth && x <= initialWidth * 11) {
                     x -= initialWidth;
-                    lastInput = new Pair<>(y / initialHeight, x / initialWidth);
+                    lastInput = new Pair<>((y + 2) / initialHeight, (x + 2) / initialWidth);
                     playerIdLastInput = 1;
                 } else if(x >= initialHeight * 13 && x <= window.width) {
                     x -= initialWidth * 13;
-                    lastInput = new Pair<>(y / initialHeight, x / initialWidth);
+                    lastInput = new Pair<>((y + 2) / initialHeight, (x + 2) / initialWidth);
                     playerIdLastInput = 2;
                 }
             }

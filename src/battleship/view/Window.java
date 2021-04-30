@@ -213,30 +213,33 @@ public class Window extends AbstractView {
                             g.setColor(new Color(0, 0, 255));
                             break;
                     }
-                    g2d.fillRect(x1, y1, shipWidth, shipHeight);
+                    g2d.fillRoundRect(x1 + 1, y1 + 1, shipWidth - 1, shipHeight - 1, 25, 25);
                 }
             }
             for(int i = 1; i < 3; ++i) {
                 Player player = game.players[i-1];
                 int halfBoxSizeWidth = initialWidth / 2;
                 int halfBoxSizeHeight = initialHeight / 2;
-                int sqrt = (int) Math.sqrt(initialHeight * initialHeight + initialWidth * initialWidth);
+                float rectangleSize =  initialWidth / 4f;
+                int sqrt = (int) Math.sqrt(initialHeight * initialHeight + initialWidth * initialWidth) - 10;
                 for(Triplet<Integer, Integer, Boolean> move : player.getMoves()) {
                     int x1 = (i == 1 ? initialWidth * 13 : initialWidth) + initialWidth * move.getMiddle();
-                    int y1 = initialHeight * 2 + initialHeight * move.getLeft();
-                    RoundRectangle2D rect = new RoundRectangle2D.Float(x1, y1, initialWidth / 4f, sqrt, 15, 15);
+                    int y1 = initialHeight * 2 + initialHeight * move.getLeft() + 8;
+                    RoundRectangle2D cross1 = new RoundRectangle2D.Float(x1, y1, rectangleSize, sqrt, 15, 15);
+                    RoundRectangle2D cross2 = new RoundRectangle2D.Float(x1 + initialWidth - 9, y1 - 9, rectangleSize, sqrt, 15, 15);
                     if(move.getRight()) {
                         g.setColor(new Color(255, 0, 0));
                     } else {
                         g.setColor(new Color(0, 123, 255));
                     }
-                    g2d.rotate(Math.toRadians(45), x1, y1);
-                    g2d.fill(rect);
-                    // g2d.rotate(Math.toRadians(-45), x1, y1);
-                    g2d.rotate(Math.toRadians(-90), x1 + halfBoxSizeWidth, y1 + halfBoxSizeHeight);
-                    g2d.fill(rect);
-                    g2d.rotate(Math.toRadians(90), x1 + halfBoxSizeWidth, y1 + halfBoxSizeHeight);
                     g2d.rotate(Math.toRadians(-45), x1, y1);
+                    g2d.fill(cross1);
+                    g2d.rotate(Math.toRadians(45), x1, y1);
+                    g2d.rotate(Math.toRadians(45), x1 + initialWidth - 9, y1 - 9);
+                    g2d.fill(cross2);
+                    g2d.rotate(Math.toRadians(-45), x1 + initialWidth - 9, y1 - 9);
+
+
                 }
             }
             System.out.println(window);
