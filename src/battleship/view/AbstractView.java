@@ -9,8 +9,13 @@ import battleship.utils.Triplet;
 
 import java.util.ArrayList;
 
+/**
+ *  Abstract view class
+ * @see View
+ * @see Window
+ * @see Terminal
+ */
 public abstract class AbstractView implements View {
-
 
     protected Game game;
 
@@ -18,9 +23,12 @@ public abstract class AbstractView implements View {
         this.game = game;
     }
 
+    /**
+     * Used during debugging, used in terminal to display grids too
+     * @return all player grids
+     */
     @Override
     public String toString() {
-        // String chain = "A vous de joueur "+game.currentPlayer.toString()+ "\n+ - - - - - - - - - - +\n";
         String chain = "";
         for(int u = 0; u < 2; ++u) {
             Player player = game.players[u];
@@ -63,6 +71,10 @@ public abstract class AbstractView implements View {
         return chain;
     }
 
+    /**
+     *
+     * @return {@code true} if {@link Ship#getFullCoords()} contains {@code boardsCoords}, {@code false} otherwise
+     */
     private boolean isShipPosition(Ship ship, Pair<Integer, Integer> boardsCoords) {
         for(Pair<Integer, Integer> coords : ship.getFullCoords()) {
             if(boardsCoords.equals(coords))
@@ -71,6 +83,12 @@ public abstract class AbstractView implements View {
         return false;
     }
 
+    /**
+     * ask player for keyboard input and parse it into one of {@link Direction} value
+     * @return Direction depending of player input
+     * @throws InterruptedException see {@link Window#getDirectionFromChar()}
+     * @see Window#getDirectionFromChar()
+     */
     protected Direction getDirectionFromChar() throws InterruptedException {
         String dir;
         while (true) {
@@ -84,21 +102,37 @@ public abstract class AbstractView implements View {
         }
     }
 
+    /**
+     * ask player for keyboard input and return result
+     * @return String given by player
+     * @throws InterruptedException see {@link Window#getKeyInput()}
+     */
     protected abstract String getKeyInput() throws InterruptedException;
 
+    /**
+     * Display a text above the grid on {@link Window}, simply print text on {@link Terminal}
+     * @param s text to display
+     * @see Window#setUpperText(String) 
+     * @see Terminal#setUpperText(String)
+     */
     protected abstract void setUpperText(String s);
 
+    /**
+     * used if {@code player} instance of {@link battleship.model.player.Computer}
+     * @param player player we ask to set position of its ships
+     * @throws InterruptedException see {@link Window#setShips(Player)}
+     */
     @Override
     public void setShips(Player player) throws InterruptedException {
         player.placeShips();
     }
 
     /**
-     *
      * @param other other than the current player
-     * @param ship check if this ship at this position is touch
+     * @param ship check if this ship at this position has been hit
      * @param pair coords
      * @return 1 if ship fully drowned, 2 if only damaged, 0 if not
+     * @see
      */
     private int isPositionDrowned(Player other, Ship ship, Pair<Integer, Integer> pair) {
         if(ship.isDrown())
@@ -106,6 +140,11 @@ public abstract class AbstractView implements View {
         return isPositionDrowned(other, pair);
     }
 
+    /**
+     * @param other other than the current player
+     * @param pair coords to check
+     * @return 2 if player already played here, 0 otherwise
+     */
     private int isPositionDrowned(Player other, Pair<Integer, Integer> pair) {
         for(Triplet<Integer, Integer, Boolean> move : other.getMoves()) {
             if(pair.getLeft().equals(move.getLeft()) && pair.getRight().equals(move.getMiddle())) {
@@ -115,12 +154,33 @@ public abstract class AbstractView implements View {
         return 0;
     }
 
+    /**
+     * used by {@link battleship.model.player.Computer} player to play a move in the grid depending of its algorithm
+     * @param player {@link battleship.model.Game#currentPlayer}
+     * @return a couple ({@link Pair} containing the x and y coordinate (left side store Y and right side X)
+     * @throws InterruptedException see {@link Window#chooseMove(Player)}
+     */
     @Override
     public Pair<Integer, Integer> chooseMove(Player player) throws InterruptedException {
         return player.chooseMove();
     }
 
+    /**
+     * ask {@code player} for mouse input
+     * @param player {@link Game#currentPlayer}
+     * @return coordinate of {@code player} opponent grid
+     * @see Window#mouseInput(Player)
+     * @throws InterruptedException see {@link Window#mouseInput(Player)}
+     */
     protected abstract Pair<Integer, Integer> mouseInput(Player player) throws InterruptedException;
 
+    /**
+     * ask {@link Game#currentPlayer} for keyboard input
+     * @return String given by player
+     * @throws InterruptedException see {@link Window#keyboardInput()}
+     * @see Window#keyboardInput()
+     * @see Terminal#keyboardInput()
+     * @see Terminal#keyboardInputInteger()
+     */
     protected abstract String keyboardInput() throws InterruptedException;
 }

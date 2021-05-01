@@ -6,8 +6,8 @@ import battleship.model.player.Human;
 import battleship.model.player.Player;
 import battleship.model.player.Random;
 import battleship.utils.Pair;
-import battleship.view.AbstractView;
 import battleship.view.Terminal;
+import battleship.view.View;
 import battleship.view.Window;
 
 import java.lang.reflect.InvocationTargetException;
@@ -15,9 +15,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
+/**
+ * Main class
+ * Given arguments are importants, please give attention to {@link Main#parseArgs(String[])} about this
+ */
 public class Main {
 
-    public static AbstractView view;
+    public static View view;
     public static Game game;
 
     public static void main(String[] args) {
@@ -36,6 +40,20 @@ public class Main {
         game.Play(view);
     }
 
+    /**
+     * <p>Read and parse launch arguments.<br>
+     * launch arguments need to follow this syntax:<br></p>
+     * <p><strong>{@code <player1_instance> <player2_instance> [nogui]}</strong></p>
+     * <p><strong>&#60;arg&#62;</strong> -> mandatory parameter<br>
+     * <strong>[arg]</strong> -> optional parameter<br>
+     * player_instance values are: <strong>"Human"</strong> or <strong>"Random"</strong><br>
+     * nogui to launch the game in terminal or nothing to launch in graphical interface</p>
+     * @param args launch arguments
+     * @throws NoSuchMethodException reflect exception
+     * @throws IllegalAccessException reflect exception
+     * @throws InvocationTargetException reflect exception
+     * @throws InstantiationException reflect exception
+     */
     private static void parseArgs(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Player[] players = new Player[2];
         ArrayList<Pair<String, Class<? extends AbstractPlayer>>> playerClass = new ArrayList<>(2);

@@ -3,8 +3,11 @@ package battleship.model;
 import battleship.model.player.Player;
 import battleship.utils.Pair;
 import battleship.utils.Triplet;
-import battleship.view.AbstractView;
+import battleship.view.View;
 
+/**
+ * Main game class
+ */
 public class Game {
 
     public Player[] players;
@@ -16,7 +19,6 @@ public class Game {
         players[0].setId(1);
         players[1].setId(2);
     }
-
 
     public Player getCurrentPlayer(){
         return this.currentPlayer;
@@ -34,6 +36,9 @@ public class Game {
         currentPlayer = getOtherPlayer();
     }
 
+    /**
+     * Update ship to know if they're drowned
+     */
     public void checkDrownedShips(){
         Player otherPlayer = getOtherPlayer();
         for(Ship ship : otherPlayer.getShips()){
@@ -42,6 +47,9 @@ public class Game {
         }
     }
 
+    /**
+     * @return player 1 if player 2' ships are drowned, or player 2 if player1' ships are drowned, null otherwise
+     */
     public Player getWinner(){
         Ship remainingShip = players[0].getShips().parallelStream().filter(ship -> !ship.isDrown()).findFirst().orElse(null);
         if(remainingShip == null)
@@ -52,6 +60,11 @@ public class Game {
         return null;
 
     }
+
+    /**
+     * Play the selected move from current player in grid
+     * @param move selected player move
+     */
     public void move(Pair<Integer,Integer> move){
         boolean bool = false;
         Player otherPlayer = getOtherPlayer();
@@ -68,7 +81,11 @@ public class Game {
         currentPlayer.addMove(new Triplet<>(move, bool));
     }
 
-    public void Play(AbstractView view) {
+    /**
+     * game loop
+     * @param view can be {@link battleship.view.Terminal} or {@link battleship.view.Window}
+     */
+    public void Play(View view) {
         try {
             view.setShips(players[0]);
             view.setShips(players[1]);

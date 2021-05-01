@@ -15,11 +15,22 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.RoundRectangle2D;
 
+/**
+ * Window view, instanced if argument 2 equals to "nogui"
+ * @see View
+ * @see AbstractView
+ */
 public class Window extends AbstractView {
 
     final JFrame frame;
 
+    /**
+     * grids height, do no represent frame size
+     */
     public final int height = 600;
+    /**
+     * grids width, do no represent frame size
+     */
     public final int width = 1200;
     private final WindowMouseListener mouseComponent;
     private final WindowKeyboardListener keyboardComponent;
@@ -46,11 +57,20 @@ public class Window extends AbstractView {
         return keyboardInput();
     }
 
+    /**
+     * Display a text above the grid
+     * @param s text to display
+     */
     @Override
     protected void setUpperText(String s) {
         upperTitle = s;
     }
 
+    /**
+     * Ask {@code player} to set position of its ships
+     * @param player player we ask
+     * @throws InterruptedException see {@link Window#mouseInput(Player)} and {@link Window#getDirectionFromChar()}
+     */
     @Override
     public void setShips(Player player) throws InterruptedException {
         if(player instanceof Human) {
@@ -80,6 +100,11 @@ public class Window extends AbstractView {
         }
     }
 
+    /**
+     * ask {@link Game#currentPlayer} for keyboard input
+     * @return String given by player
+     * @throws InterruptedException throw if this Thread is interrupted while {@link Thread#sleep(long) sleeping}
+     */
     @Override
     protected String keyboardInput() throws InterruptedException {
         keyboardComponent.requestInput = true;
@@ -94,6 +119,12 @@ public class Window extends AbstractView {
         }
     }
 
+    /**
+     * ask {@code player} for mouse input
+     * @param player {@link Game#currentPlayer}
+     * @return coordinate of {@code player} opponent grid
+     * @throws InterruptedException throw if this Thread is interrupted while {@link Thread#sleep(long) sleeping}
+     */
     @Override
     protected Pair<Integer, Integer> mouseInput(Player player) throws InterruptedException {
         mouseComponent.requestInput = true;
@@ -105,7 +136,6 @@ public class Window extends AbstractView {
                     mouseComponent.playerIdLastInput = 0;
                     Pair<Integer, Integer> value = mouseComponent.lastInput;
                     mouseComponent.lastInput = null;
-                    System.out.println(value);
                     return value;
                 } else {
                     openDialog("Vous avez cliquer sur une zone de jeu qui n'est pas la votre");
@@ -116,21 +146,40 @@ public class Window extends AbstractView {
         }
     }
 
+    /**
+     * Open a window with {@code message} as content and with a "OK" button
+     * @param message message to display
+     * @param exitOnClose {@code true} if when user close this window, the program exit, {@code false} otherwise
+     */
     public void openDialog(String message, boolean exitOnClose) {
         JOptionPane.showMessageDialog(frame, message);
         if(exitOnClose)
             System.exit(0);
     }
 
+    /**
+     * Open a window with {@code message} as content and with a "OK" button
+     * @param message message to display
+     * @see Window#openDialog(String, boolean)
+     */
     public void openDialog(String message) {
         openDialog(message, false);
     }
 
+    /**
+     * refresh windows to display updated content
+     */
     @Override
 	public void displayBoard() {
         frame.paintComponents(frame.getGraphics());
 	}
 
+    /**
+     * ask player to choose a position in its opponent grid
+     * @param player {@link battleship.model.Game#currentPlayer}
+     * @return a couple ({@link Pair} containing the x and y coordinate (left side store Y and right side X)
+     * @throws InterruptedException see {@link Window#mouseInput(Player)}
+     */
     @Override
     public Pair<Integer, Integer> chooseMove(Player player) throws InterruptedException {
         setUpperText("Joueur " + player.getId() + " cliquer sur l'emplacement ou vous souhaitez tirer");
@@ -150,11 +199,19 @@ public class Window extends AbstractView {
 
     }
 
+    /**
+     * open a dialog to display the winner and exit the program when window is closed
+     * @param winner the winner of the game.
+     */
     @Override
     public void displayWinner(Player winner) {
         openDialog("Le joueur " + winner.getId() + " a gagné(e)", true);
     }
 
+    /**
+     * Panel where we paint the board
+     * @see JPanel
+     */
     class Draw extends JPanel {
 
         private final Window window;
@@ -240,11 +297,8 @@ public class Window extends AbstractView {
                     g2d.rotate(Math.toRadians(45), x1 + initialWidth - 9, y1 - 9);
                     g2d.fill(cross2);
                     g2d.rotate(Math.toRadians(-45), x1 + initialWidth - 9, y1 - 9);
-
-
                 }
             }
-            System.out.println(window);
         }
     }
 }

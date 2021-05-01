@@ -3,10 +3,11 @@ package battleship.utils;
 import java.util.Objects;
 
 /**
- * tuple containing 2 unknown type elements
+ * tuple containing 3 generic type elements
  *
  * @param <U> left
- * @param <K> right
+ * @param <K> middle
+ * @param <V> right
  */
 public class Triplet<U, K, V> {
 

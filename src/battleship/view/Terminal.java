@@ -10,6 +10,11 @@ import battleship.utils.Pair;
 
 import java.util.Scanner;
 
+/**
+ * Terminal view, instanced if argument 2 equals to "nogui"
+ * @see View
+ * @see AbstractView
+ */
 public class Terminal extends AbstractView {
 
     public static Scanner scanner = null;
@@ -22,16 +27,28 @@ public class Terminal extends AbstractView {
         keyboardComponent = new TerminalKeyboardListener(scanner);
     }
 
+    /**
+     * @return given string in terminal
+     */
     @Override
     protected String getKeyInput() {
         return scanner.next().toUpperCase();
     }
 
+    /**
+     * print string
+     * @param s text to display
+     */
     @Override
     protected void setUpperText(String s) {
         System.out.println(s);
     }
 
+    /**
+     * Ask {@code player} to set position of its ships
+     * @param player player we ask to set position of its ships
+     * @throws InterruptedException see {@link AbstractView#getDirectionFromChar()}
+     */
     @Override
     public void setShips(Player player) throws InterruptedException {
         setUpperText("Joueur " + player.getId() + ", placez vos navires");
@@ -69,11 +86,22 @@ public class Terminal extends AbstractView {
         }
     }
 
+    /**
+     * print board in terminal
+     */
     @Override
     public void displayBoard() {
         System.out.println(this);
     }
 
+    /**
+     * ask player to choose a coords on its opponent grid, call {@link AbstractView#chooseMove(Player)} if instance of
+     * player is {@link battleship.model.player.Computer}
+     * if {@code player} isn't {@link Human} instance
+     * @param player {@link battleship.model.Game#currentPlayer}
+     * @return a element containing the x and y coordinate (left side store Y and right side X)
+     * @throws InterruptedException see {@link AbstractView#chooseMove(Player)}
+     */
     @Override
     public Pair<Integer, Integer> chooseMove(Player player) throws InterruptedException {
         if(player instanceof Human) {
@@ -97,20 +125,38 @@ public class Terminal extends AbstractView {
 
     }
 
+    /**
+     * Never call in Terminal
+     * @param player {@link Game#currentPlayer}
+     * @return {@code null}
+     */
     @Override
     protected Pair<Integer, Integer> mouseInput(Player player) {
         return null;
     }
 
+    /**
+     * @see TerminalKeyboardListener#keyboardInput()
+     * @return given string in terminal
+     */
     @Override
     protected String keyboardInput() {
         return keyboardComponent.keyboardInput();
     }
 
+    /**
+     * @see Terminal#keyboardInput()
+     * @return convert string from keyboardInput() and convert it into an integer
+     * @throws NumberFormatException if given string can't be parse into an integer
+     */
     protected int keyboardInputInteger() throws NumberFormatException {
         return Integer.parseInt(keyboardComponent.keyboardInput());
     }
 
+    /**
+     * print grid, winner player and close scanner, game automatically close after this
+     * @param winner the winner of the game.
+     */
     @Override
     public void displayWinner(Player winner) {
         displayBoard();
