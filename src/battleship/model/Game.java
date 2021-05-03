@@ -56,7 +56,7 @@ public class Game {
             return players[1];
         remainingShip = players[1].getShips().parallelStream().filter(ship -> !ship.isDrown()).findFirst().orElse(null);
         if(remainingShip == null)
-            return players[1];
+            return players[0];
         return null;
 
     }
