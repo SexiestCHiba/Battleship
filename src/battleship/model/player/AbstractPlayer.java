@@ -7,6 +7,13 @@ import battleship.utils.Triplet;
 
 import java.util.ArrayList;
 
+/**
+ * Abstract player class see {@link Player} to know more about this code organisation
+ * @see Player
+ * @see Human
+ * @see Computer
+ * @see Random
+ */
 public abstract class AbstractPlayer implements Player {
 
     ArrayList<Ship> ships = new ArrayList<>();
@@ -33,11 +40,9 @@ public abstract class AbstractPlayer implements Player {
     /**
      * La methode retourne son objet afin d'avoir la possibilité de faire Player.addMove().addMove().etc...
      * @param move
-     * @return Player
      */
-    public Player addMove(Triplet<Integer,Integer,Boolean> move){
+    public void addMove(Triplet<Integer,Integer,Boolean> move){
         moves.add(move);
-        return this;
     }
 
     public ArrayList<Pair<Integer,Integer>> validMoves() {

@@ -2,6 +2,9 @@ package battleship.model.player;
 
 import battleship.utils.Pair;
 
+/**
+ * place its ship and choose moves randomly
+ */
 public class Random extends Computer {
 
     @Override

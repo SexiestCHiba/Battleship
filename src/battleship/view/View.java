@@ -4,8 +4,8 @@ import battleship.model.player.Player;
 import battleship.utils.Pair;
 
 /**
- * <p>View interface, used as an API<br>
- * This model (interface(s) -> abstract class(es) -> concrete classes) prevent hard code.</p>
+ * <p>View interface, used as an API</p>
+ * <p>This model (interface -> abstract class(es) -> concrete classes) prevent hard code.</p>
  * <p>This is the only object which interact with other object<br>
  * Allows an outside person easily change the code or add a view easily without modifying existing classes</p>
  * @see AbstractView

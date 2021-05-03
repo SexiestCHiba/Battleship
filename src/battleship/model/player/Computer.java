@@ -6,6 +6,11 @@ import battleship.utils.Pair;
 
 import java.util.Random;
 
+/**
+ * <p>Computer super class, all player object which use an algorithm to calculate coordinates to use should extend from
+ * this object.</p>
+ * <p>Random is the only algorithm include here but another algorithm can be easily implemented</p>
+ */
 public abstract class Computer extends AbstractPlayer {
 
     public void placeShipRandomly() {
