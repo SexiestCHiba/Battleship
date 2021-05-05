@@ -88,7 +88,9 @@ public class Game {
     public void Play(View view) {
         try {
             view.setShips(players[0]);
+            changeCurrentPlayer();
             view.setShips(players[1]);
+            changeCurrentPlayer();
             Player winner = null;
             while (winner == null) {
                 System.out.println("Au tour du joueur " + currentPlayer.getId());

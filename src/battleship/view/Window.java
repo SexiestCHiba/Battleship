@@ -242,43 +242,43 @@ public class Window extends AbstractView {
             for(int i = 1; i < 3; ++i) {
                 Player player = game.players[i-1];
                 for(Ship ship : player.getShips()) {
-                    int x1 = i == 1 ? initialWidth : initialWidth * 13;
-                    int y1 = initialHeight * 2;
-                    int shipWidth = initialWidth;
-                    int shipHeight = initialHeight;
-                    switch(ship.getDirection()) {
-                        case DOWN:
-                            x1 += initialWidth * ship.getCoords().getRight();
-                            y1 += initialHeight * ship.getCoords().getLeft();
-                            shipHeight = initialHeight * ship.getSize();
-                            g.setColor(new Color(0, 255, 255));
-                            break;
-                        case UP:
-                            x1 += initialWidth * ship.getCoords().getRight();
-                            shipHeight = initialHeight * ship.getSize();
-                            y1 += initialHeight * ship.getCoords().getLeft() - shipHeight + initialHeight;
-                            g.setColor(new Color(255, 255, 0));
-                            break;
-                        case RIGHT:
-                            x1 += initialWidth * ship.getCoords().getRight();
-                            y1 += initialHeight * ship.getCoords().getLeft();
-                            shipWidth = initialWidth * ship.getSize();
-                            g.setColor(new Color(0, 255, 0));
-                            break;
-                        case LEFT:
-                            shipWidth = initialWidth * ship.getSize();
-                            x1 += initialWidth * ship.getCoords().getRight() - shipWidth + initialWidth;
-                            y1 += initialHeight * ship.getCoords().getLeft();
-                            g.setColor(new Color(0, 0, 255));
-                            break;
+                    if(player == game.getCurrentPlayer() ||ship.isDrown()) {
+                        int x1 = i == 1 ? initialWidth : initialWidth * 13;
+                        int y1 = initialHeight * 2;
+                        int shipWidth = initialWidth;
+                        int shipHeight = initialHeight;
+                        switch(ship.getDirection()) {
+                            case DOWN:
+                                x1 += initialWidth * ship.getCoords().getRight();
+                                y1 += initialHeight * ship.getCoords().getLeft();
+                                shipHeight = initialHeight * ship.getSize();
+                                g.setColor(new Color(0, 255, 255));
+                                break;
+                            case UP:
+                                x1 += initialWidth * ship.getCoords().getRight();
+                                shipHeight = initialHeight * ship.getSize();
+                                y1 += initialHeight * ship.getCoords().getLeft() - shipHeight + initialHeight;
+                                g.setColor(new Color(255, 255, 0));
+                                break;
+                            case RIGHT:
+                                x1 += initialWidth * ship.getCoords().getRight();
+                                y1 += initialHeight * ship.getCoords().getLeft();
+                                shipWidth = initialWidth * ship.getSize();
+                                g.setColor(new Color(0, 255, 0));
+                                break;
+                            case LEFT:
+                                shipWidth = initialWidth * ship.getSize();
+                                x1 += initialWidth * ship.getCoords().getRight() - shipWidth + initialWidth;
+                                y1 += initialHeight * ship.getCoords().getLeft();
+                                g.setColor(new Color(0, 0, 255));
+                                break;
+                        }
+                        g2d.fillRoundRect(x1 + 1, y1 + 1, shipWidth - 1, shipHeight - 1, 25, 25);
                     }
-                    g2d.fillRoundRect(x1 + 1, y1 + 1, shipWidth - 1, shipHeight - 1, 25, 25);
                 }
             }
             for(int i = 1; i < 3; ++i) {
                 Player player = game.players[i-1];
-                int halfBoxSizeWidth = initialWidth / 2;
-                int halfBoxSizeHeight = initialHeight / 2;
                 float rectangleSize =  initialWidth / 4f;
                 int sqrt = (int) Math.sqrt(initialHeight * initialHeight + initialWidth * initialWidth) - 10;
                 for(Triplet<Integer, Integer, Boolean> move : player.getMoves()) {

@@ -29,38 +29,44 @@ public abstract class AbstractView implements View {
      */
     @Override
     public String toString() {
+        return toString(true);
+    }
+
+    public String toString(boolean debug) {
         String chain = "";
         for(int u = 0; u < 2; ++u) {
             Player player = game.players[u];
             ArrayList<Ship> ships = game.players[u].getShips();
             chain += "Joueur " + player.getId() + " :\n";
-            chain += "+ - - - - - - - - - - +\n";
+            chain += "+ 0 1 2 3 4 5 6 7 8 9 +\n";
             for(int x = 0; x < 10; ++x) {
-                chain += "|";
+                chain += x;
                 for(int y = 0; y < 10; ++y) {
                     Pair<Integer, Integer> pair = new Pair<>(x, y);
-                        boolean isPosition = false;
-                        for(Ship ship : ships) {
-                            if(isShipPosition(ship, pair)) {
-                                isPosition = true;
-                                int result = isPositionDrowned(game.players[u == 0 ? 1 : 0], ship, pair);
-                                if(result == 1) {
-                                    chain += " X";
-                                } else if (result == 2){
-                                    chain += " !";
-                                } else {
-                                    chain += " .";
-                                }
-                                break;
-                            }
-                        }
-                        if(!isPosition) {
-                            if(isPositionDrowned(game.players[u == 0 ? 1 : 0], pair) == 2) {
-                                chain += " ?";
+                    boolean isPosition = false;
+                    for(Ship ship : ships) {
+                        if(isShipPosition(ship, pair)) {
+                            isPosition = true;
+                            int result = isPositionDrowned(game.players[u == 0 ? 1 : 0], ship, pair);
+                            if(result == 1) {
+                                chain += " X";
+                            } else if (result == 2){
+                                chain += " !";
+                            } else if(debug || game.getCurrentPlayer() == player) {
+                                chain += " .";
                             } else {
                                 chain += " _";
                             }
+                            break;
                         }
+                    }
+                    if(!isPosition) {
+                        if(isPositionDrowned(game.players[u == 0 ? 1 : 0], pair) == 2) {
+                            chain += " ?";
+                        } else {
+                            chain += " _";
+                        }
+                    }
 
                 }
                 chain += " |\n";

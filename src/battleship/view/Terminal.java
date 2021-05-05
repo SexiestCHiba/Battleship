@@ -91,7 +91,7 @@ public class Terminal extends AbstractView {
      */
     @Override
     public void displayBoard() {
-        System.out.println(this);
+        System.out.println(this.toString(false));
     }
 
     /**
