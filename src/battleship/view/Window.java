@@ -47,7 +47,7 @@ public class Window extends AbstractView {
         frame.setVisible(true);
         this.mouseComponent = new WindowMouseListener(this);
         frame.addMouseListener(mouseComponent);
-        this.keyboardComponent = new WindowKeyboardListener(this);
+        this.keyboardComponent = new WindowKeyboardListener();
         frame.addKeyListener(keyboardComponent);
 
     }

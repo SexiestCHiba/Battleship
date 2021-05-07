@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public abstract class AbstractView implements View {
 
-    protected Game game;
+    protected final Game game;
 
     public AbstractView(Game game) {
         this.game = game;
@@ -33,14 +33,14 @@ public abstract class AbstractView implements View {
     }
 
     public String toString(boolean debug) {
-        String chain = "";
+        StringBuilder chain = new StringBuilder();
         for(int u = 0; u < 2; ++u) {
             Player player = game.players[u];
             ArrayList<Ship> ships = game.players[u].getShips();
-            chain += "Joueur " + player.getId() + " :\n";
-            chain += "+ 0 1 2 3 4 5 6 7 8 9 +\n";
+            chain.append("Joueur ").append(player.getId()).append(" :\n");
+            chain.append("+ 0 1 2 3 4 5 6 7 8 9 +\n");
             for(int x = 0; x < 10; ++x) {
-                chain += x;
+                chain.append(x);
                 for(int y = 0; y < 10; ++y) {
                     Pair<Integer, Integer> pair = new Pair<>(x, y);
                     boolean isPosition = false;
@@ -49,32 +49,32 @@ public abstract class AbstractView implements View {
                             isPosition = true;
                             int result = isPositionDrowned(game.players[u == 0 ? 1 : 0], ship, pair);
                             if(result == 1) {
-                                chain += " X";
+                                chain.append(" X");
                             } else if (result == 2){
-                                chain += " !";
+                                chain.append(" !");
                             } else if(debug || game.getCurrentPlayer() == player) {
-                                chain += " .";
+                                chain.append(" .");
                             } else {
-                                chain += " _";
+                                chain.append(" _");
                             }
                             break;
                         }
                     }
                     if(!isPosition) {
                         if(isPositionDrowned(game.players[u == 0 ? 1 : 0], pair) == 2) {
-                            chain += " ?";
+                            chain.append(" ?");
                         } else {
-                            chain += " _";
+                            chain.append(" _");
                         }
                     }
 
                 }
-                chain += " |\n";
+                chain.append(" |\n");
             }
-            chain += "+ - - - - - - - - - - +\n";
+            chain.append("+ - - - - - - - - - - +\n");
         }
 
-        return chain;
+        return chain.toString();
     }
 
     /**
@@ -92,7 +92,7 @@ public abstract class AbstractView implements View {
     /**
      * ask player for keyboard input and parse it into one of {@link Direction} value
      * @return Direction depending of player input
-     * @throws InterruptedException see {@link Window#getDirectionFromChar()}
+     * @throws InterruptedException caused by {@link Window#getKeyInput()}
      * @see Window#getDirectionFromChar()
      */
     protected Direction getDirectionFromChar() throws InterruptedException {
@@ -138,7 +138,7 @@ public abstract class AbstractView implements View {
      * @param ship check if this ship at this position has been hit
      * @param pair coords
      * @return 1 if ship fully drowned, 2 if only damaged, 0 if not
-     * @see
+     * @see AbstractView#isPositionDrowned(Player, Pair)
      */
     private int isPositionDrowned(Player other, Ship ship, Pair<Integer, Integer> pair) {
         if(ship.isDrown())

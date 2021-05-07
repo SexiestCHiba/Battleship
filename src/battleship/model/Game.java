@@ -10,7 +10,7 @@ import battleship.view.View;
  */
 public class Game {
 
-    public Player[] players;
+    public final Player[] players;
     public Player currentPlayer;
 
     public Game(Player[] players) {

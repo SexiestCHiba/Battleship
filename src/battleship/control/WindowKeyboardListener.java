@@ -1,20 +1,13 @@
 package battleship.control;
 
-import battleship.view.Window;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class WindowKeyboardListener implements KeyListener {
 
-    private final Window window;
     public boolean requestInput = false;
     public char keyTyped = KeyEvent.CHAR_UNDEFINED;
     public int keyTypedArrow = KeyEvent.VK_UNDEFINED;
-
-    public WindowKeyboardListener(Window window) {
-        this.window = window;
-    }
 
     @Override
     public void keyTyped(KeyEvent e) {

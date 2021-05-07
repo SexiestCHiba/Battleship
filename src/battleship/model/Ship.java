@@ -20,7 +20,7 @@ public class Ship {
     /**
      * ship full coordinates calculate thank to base coordinates, direction and size
      */
-    Pair<Integer,Integer>[] fullCoords;
+    final Pair<Integer,Integer>[] fullCoords;
     private Direction direction;
     /**
      * if true the ship is destroyed

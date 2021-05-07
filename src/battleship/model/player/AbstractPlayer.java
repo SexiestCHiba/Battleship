@@ -16,8 +16,12 @@ import java.util.ArrayList;
  */
 public abstract class AbstractPlayer implements Player {
 
-    ArrayList<Ship> ships = new ArrayList<>();
-    ArrayList<Triplet<Integer,Integer,Boolean>> moves = new ArrayList<>();
+    final ArrayList<Ship> ships = new ArrayList<>();
+    /**
+     * reference every shot on the opponent board, left and middle side of the Triplet reference the coordinates and the
+     * right side if this move hit or not an opponent ship
+     */
+    final ArrayList<Triplet<Integer,Integer,Boolean>> moves = new ArrayList<>();
     public int id;
 
     public boolean setShips(Ship ship) {
@@ -38,8 +42,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     /**
-     * La methode retourne son objet afin d'avoir la possibilité de faire Player.addMove().addMove().etc...
-     * @param move
+     * add {@code move} to the {@link AbstractPlayer#moves} list
      */
     public void addMove(Triplet<Integer,Integer,Boolean> move){
         moves.add(move);
