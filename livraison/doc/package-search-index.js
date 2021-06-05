@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"battleship"},{"l":"battleship.control"},{"l":"battleship.model"},{"l":"battleship.model.player"},{"l":"battleship.utils"},{"l":"battleship.view"}];updateSearchResults();
